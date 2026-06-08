@@ -4,7 +4,7 @@ import {
     SiJavascript, SiTypescript, SiPhp, SiPython, SiNodedotjs, SiExpress,
     SiLaravel, SiHtml5, SiCss3, SiReact, SiNextdotjs, SiTailwindcss,
     SiBootstrap, SiSass, SiMongodb, SiMysql, SiPostgresql, SiPrisma,
-    SiGit, SiGithub, SiPostman, SiEslint, SiGnubash, SiFlask, SiFigma
+    SiGit, SiGithub, SiPostman, SiEslint, SiGnubash, SiFigma, SiFastapi, SiDocker
 } from "react-icons/si";
 
 export const skillCategories: SkillCategoryProps[] = [
@@ -30,7 +30,7 @@ export const skillCategories: SkillCategoryProps[] = [
             { name: "Node.js", icon: createElement(SiNodedotjs, { className: "w-6 h-6 text-[#339933]" }) },
             { name: "Express.js", icon: createElement(SiExpress, { className: "w-6 h-6 text-slate-100" }) },
             { name: "Laravel", icon: createElement(SiLaravel, { className: "w-6 h-6 text-[#FF2D20]" }) },
-            { name: "Flask", icon: createElement(SiFlask, { className: "w-6 h-6 text-[#000000]" }) },
+            { name: "FastAPI", icon: createElement(SiFastapi, { className: "w-6 h-6 text-[#009688]" }) },
             { name: "MongoDB", icon: createElement(SiMongodb, { className: "w-6 h-6 text-[#47A248]" }) },
             { name: "MySQL", icon: createElement(SiMysql, { className: "w-6 h-6 text-[#4479A1]" }) },
             { name: "PostgreSQL", icon: createElement(SiPostgresql, { className: "w-6 h-6 text-[#4169E1]" }) },
@@ -46,6 +46,7 @@ export const skillCategories: SkillCategoryProps[] = [
             { name: "ESLint", icon: createElement(SiEslint, { className: "w-6 h-6 text-[#4B32C3]" }) },
             { name: "Bash", icon: createElement(SiGnubash, { className: "w-6 h-6 text-[#4EAA25]" }) },
             { name: "Figma", icon: createElement(SiFigma, { className: "w-6 h-6 text-[#F24E1E]" }) },
+            { name: "Docker", icon: createElement(SiDocker, { className: "w-6 h-6 text-[#2496ED]" }) },
         ]
     }
 ];

@@ -1,5 +1,5 @@
 "use client";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion } from "framer-motion";
 import { useState, useEffect } from "react";
 import { roles } from '@/constants/roles'
 
@@ -28,39 +28,24 @@ export default function Header() {
 
         const timer = setTimeout(handleTyping, typingSpeed)
         return () => clearTimeout(timer)
-    }, [text, isDeleting, loopNum, roles])
+    }, [text, isDeleting, loopNum, typingSpeed])
 
     return (
         <section id="home" className="relative flex min-h-screen flex-col items-center justify-center text-center py-20 overflow-hidden">
             {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-30 pointer-events-none -z-10">
+            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none -z-10">
                 <motion.div
                     animate={{
-                        scale: [1, 1.2, 0.9, 1],
-                        rotate: [0, 90, 180, 270, 360],
-                        x: [0, 50, -20, 0],
-                        y: [0, -50, 20, 0],
-                    }}
-                    transition={{
-                        duration: 20,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                    className="absolute top-1/4 left-1/4 w-72 h-72 bg-blue-500 rounded-full mix-blend-screen filter blur-[100px] opacity-70"
-                />
-                <motion.div
-                    animate={{
-                        scale: [1, 1.3, 0.8, 1],
-                        rotate: [360, 270, 180, 90, 0],
-                        x: [0, -50, 30, 0],
-                        y: [0, 40, -30, 0],
+                        scale: [1, 1.15, 0.9, 1],
+                        x: [0, 30, -30, 0],
+                        y: [0, -30, 30, 0],
                     }}
                     transition={{
                         duration: 25,
                         repeat: Infinity,
                         ease: "easeInOut"
                     }}
-                    className="absolute bottom-1/4 right-1/4 w-72 h-72 bg-purple-500 rounded-full mix-blend-screen filter blur-[100px] opacity-70"
+                    className="absolute top-1/3 left-1/3 w-80 h-80 bg-blue-900 rounded-full filter blur-[120px] opacity-40"
                 />
             </div>
 
@@ -75,7 +60,7 @@ export default function Header() {
                 }}
                 className="inline-block mb-4"
             >
-                <div className="px-4 py-1.5 rounded-full border border-blue-900/50 bg-blue-900/20 text-blue-400 text-sm font-semibold tracking-wide backdrop-blur-sm animate-pulse">
+                <div className="px-4 py-1.5 rounded-full border border-blue-900/50 bg-blue-900/20 text-blue-400 text-sm font-semibold tracking-wide backdrop-blur-sm hover:border-blue-700 transition-colors duration-300">
                     Available for new opportunities
                 </div>
             </motion.div>
@@ -89,9 +74,9 @@ export default function Header() {
                     damping: 20,
                     delay: 0.2
                 }}
-                className="text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl text-slate-100 drop-shadow-lg"
+                className="text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl text-white drop-shadow-lg"
             >
-                Hi, I'm <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-400 to-purple-500">Evandri</span>
+                Hi, Im <span className="text-blue-400">Evandri</span>
             </motion.h1>
 
             <motion.p
@@ -103,7 +88,7 @@ export default function Header() {
                     damping: 20,
                     delay: 0.4
                 }}
-                className="mt-6 text-lg sm:text-xl md:text-2xl text-slate-400 max-w-2xl px-4 flex items-center justify-center h-8"
+                className="mt-6 text-lg sm:text-xl md:text-2xl text-neutral-400 max-w-2xl px-4 flex items-center justify-center h-8"
             >
                 <span className="font-semibold text-white">
                     {text}
@@ -116,7 +101,7 @@ export default function Header() {
                         duration: 0.8,
                         ease: "linear"
                     }}
-                    className="ml-1 text-slate-400 font-light"
+                    className="ml-1 text-neutral-450 font-light"
                 >
                     |
                 </motion.span>
@@ -145,7 +130,7 @@ export default function Header() {
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
                     href="#contact"
-                    className="px-8 py-3 rounded-full bg-slate-900 text-slate-300 border border-slate-700 font-medium hover:bg-slate-800 hover:border-slate-500 hover:text-white transition-all duration-300 shadow-sm">
+                    className="px-8 py-3 rounded-full bg-transparent text-neutral-300 border border-neutral-800 font-medium hover:bg-neutral-900/60 hover:border-neutral-500 hover:text-white transition-all duration-300 shadow-sm">
                     Get in Touch
                 </motion.a>
             </motion.div>
