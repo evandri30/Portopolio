@@ -6,5 +6,5 @@ export type ProjectProps = {
     tech: string[];
     link: string;
     color: string;
-    image: StaticImageData | null;
+    image: string | StaticImageData | null;
 }

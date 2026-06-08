@@ -84,7 +84,7 @@ export default function Project() {
                                             alt={item.title}
                                             fill
                                             sizes="(max-width: 768px) 100vw, 450px"
-                                            className="object-cover transition-transform duration-500 group-hover:scale-105"
+                                            className="object-cover"
                                         />
                                     ) : (
                                         <div className="flex flex-col items-center justify-center text-center p-8 w-full h-full">
