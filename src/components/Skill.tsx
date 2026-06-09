@@ -1,4 +1,5 @@
 "use client";
+
 import { motion } from "framer-motion";
 import { skillCategories } from "@/constants/skills";
 

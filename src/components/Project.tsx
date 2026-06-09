@@ -1,4 +1,5 @@
 "use client";
+
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
@@ -123,15 +124,17 @@ export default function Project() {
                                         </div>
 
                                         {/* Action Link */}
-                                        <a
-                                            href={item.link}
-                                            target={item.link.startsWith("http") ? "_blank" : undefined}
-                                            rel={item.link.startsWith("http") ? "noopener noreferrer" : undefined}
-                                            className="inline-flex items-center text-blue-400 font-semibold hover:text-blue-300 transition-colors group/link mt-auto"
-                                        >
-                                            View Project
-                                            <ArrowUpRight className="ml-1.5 w-5 h-5 transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 transition-transform" />
-                                        </a>
+                                        {item.link && (
+                                            <a
+                                                href={item.link}
+                                                target="_blank"
+                                                rel="noopener noreferrer"
+                                                className="inline-flex items-center text-blue-400 font-semibold hover:text-blue-300 transition-colors group/link mt-auto"
+                                            >
+                                                View Project
+                                                <ArrowUpRight className="ml-1.5 w-5 h-5 transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 transition-transform" />
+                                            </a>
+                                        )}
                                     </div>
                                 </div>
                             </motion.div>

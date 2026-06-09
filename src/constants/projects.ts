@@ -11,18 +11,26 @@ export const projects: ProjectProps[] = [
     },
     {
         title: "Rizquna Bakery",
-        description: "MERN e-commerce platform featuring JWT authentication, product catalogs, and Midtrans payment integration.",
+        description: "E-commerce platform featuring JWT authentication, product catalogs, and Midtrans payment integration.",
         tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
         link: "https://rizquna-frontend.vercel.app/",
         color: "bg-blue-950/40 border-b border-blue-900/30",
         image: "/images/rizqunabakery.png"
     },
     {
+        title: "Sparepart Monitoring",
+        description: "Internal system for monitoring aircraft & helicopter spare parts inventory with 5 role-based access levels.",
+        tech: ["PHP", "Laravel", "MySQL", 'Blade'],
+        link: null,
+        color: "bg-blue-950/40 border-b border-blue-900/30",
+        image: "/images/spm.png"
+    },
+    {
         title: "BLIP Banking Sales",
         description: "Internal machine learning web app that predicts banking product uptake using XGBoost.",
         tech: ["MERN", "Python", "XGBoost", "JavaScript"],
-        link: "#",
+        link: null,
         color: "bg-green-950/40 border-b border-green-900/30",
         image: "/images/blip2.jpeg"
-    }
+    },
 ];
