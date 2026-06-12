@@ -108,7 +108,7 @@ export default function Project() {
                                         <h3 className="font-bold text-2xl md:text-3xl mb-4 text-white group-hover:text-blue-400 transition-colors duration-300">
                                             {item.title}
                                         </h3>
-                                        <p className="text-neutral-400 mb-6 leading-relaxed text-base">
+                                        <p className="text-neutral-400 mb-6 leading-relaxed text-base text-justify">
                                             {item.description}
                                         </p>
                                     </div>
