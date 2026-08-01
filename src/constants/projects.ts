@@ -2,6 +2,14 @@ import type { ProjectProps } from "@/types/index"
 
 export const projects: ProjectProps[] = [
     {
+        title: "Deteksi SIBI",
+        description: "A web application for detecting sign language, enabling users to communicate with people who are deaf or hard of hearing.",
+        tech: ["React.js", "FastAPI", "PostgreSQL", "Docker"],
+        link: "https://deteksisibi.my.id/",
+        color: "bg-green-950/40 border-b border-green-900/30",
+        image: "/images/sibi.png"
+    },
+    {
         title: "Tomato Leaf Diseases",
         description: "An agri-tech web application that leverages a Convolutional Neural Network (CNN) to detect and diagnose diseases in tomato plant leaves, helping farmers identify issues early and take timely action to protect crop health and yield.",
         tech: ["Python", "CNN", "TensorFlow", "Streamlit"],
