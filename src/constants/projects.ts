@@ -21,7 +21,7 @@ export const projects: ProjectProps[] = [
         title: "Rizquna Bakery",
         description: "A full-featured e-commerce platform built with secure JWT-based authentication, dynamic product catalog management, and seamless Midtrans payment gateway integration for smooth and reliable online transactions.",
         tech: ["React.js", "Node.js", "Express.js", "MongoDB"],
-        link: "https://rizquna-frontend.vercel.app/",
+        link: null,
         color: "bg-blue-950/40 border-b border-blue-900/30",
         image: "/images/rizqunabakery.png"
     },
