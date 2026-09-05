@@ -122,8 +122,8 @@ export default function Header() {
                 <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="/cv/CV_Evandri.pdf"
-                    download="CV_Evandri.pdf"
+                    href="/cv/cv_evandri.pdf"
+                    download="cv_evandri.pdf"
                     className="px-8 py-3 rounded-full bg-blue-600 text-white font-medium shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:bg-blue-500 transition-all duration-300">
                     Download CV
                 </motion.a>
