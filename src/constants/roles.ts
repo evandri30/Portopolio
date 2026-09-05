@@ -1,1 +1,1 @@
-export const roles = ["Software Engineering & Data Analysis", "Python, TypeScript, SQL", "Ex-IT Intern @ Pelita Air Service"];
+export const roles = ["Software Engineer", "Python, TypeScript, SQL", "Ex-IT Intern @ Pelita Air Service"];
