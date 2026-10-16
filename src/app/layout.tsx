@@ -16,9 +16,9 @@ const jetbrains = JetBrains_Mono({
   subsets: ["latin"],
 });
 
-const title = `${profile.name} — Data Engineer & Software Engineer`;
+const title = `${profile.name} — ${profile.role}`;
 const description =
-  "Portfolio of Evandri Ridho Hasmono: Informatics graduate and certified Associate Data Engineer building internal data tools, APIs, and full-stack web applications with SQL, Python, PHP, and TypeScript.";
+  "Portfolio of Evandri Ridho Hasmono, software & data engineer: internal tools, APIs and full-stack web applications built with SQL, Python, PHP, and TypeScript. Certified Associate Data Engineer.";
 
 // Vercel sets this at build time; resolves absolute URLs for the Open Graph image.
 const siteUrl = process.env.VERCEL_PROJECT_PRODUCTION_URL

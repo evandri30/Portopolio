@@ -38,16 +38,6 @@ export const projects: Project[] = [
         image: "/images/tomatoleaf.png",
     },
     {
-        title: "SparePart Monitoring",
-        subtitle: "Internship at PT Pelita Air Service",
-        period: "Nov 2025 – Jan 2026",
-        description:
-            "Internal application that digitized a fully paper-based spare-part inventory process. Built Laravel Blade pages from Figma designs and connected them to the backend for real-time data.",
-        tech: ["PHP", "Laravel", "Blade", "MySQL"],
-        link: null,
-        image: "/images/spm.png",
-    },
-    {
         title: "Bank Lead Intelligence Portal",
         subtitle: "BLIP",
         period: "Oct 2025 – Dec 2025",

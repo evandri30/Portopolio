@@ -25,6 +25,8 @@ export type Fact = {
 export type Profile = {
     name: string;
     shortName: string;
+    /** Headline role, used in the hero, page title and OG image. */
+    role: string;
     location: string;
     email: string;
     /** One-line intro under the hero name. */
