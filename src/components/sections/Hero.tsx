@@ -1,35 +1,11 @@
 "use client";
 
 import { motion } from "framer-motion";
-import { useState, useEffect } from "react";
-import { roles } from '@/constants/roles'
+import { profile } from "@/data/profile";
+import { useTypewriter } from "@/hooks/useTypewriter";
 
-export default function Header() {
-    const [text, setText] = useState("")
-    const [isDeleting, setIsDeleting] = useState(false)
-    const [loopNum, setLoopNum] = useState(0)
-    const [typingSpeed, setTypingSpeed] = useState(150)
-
-    useEffect(() => {
-        const handleTyping = () => {
-            const currentRoleIndex = loopNum % roles.length
-            const fullText = roles[currentRoleIndex]
-
-            setText(isDeleting ? fullText.substring(0, text.length - 1) : fullText.substring(0, text.length + 1))
-
-            setTypingSpeed(isDeleting ? 50 : 150)
-
-            if (!isDeleting && text === fullText) {
-                setTimeout(() => setIsDeleting(true), 1500)
-            } else if (isDeleting && text === "") {
-                setIsDeleting(false)
-                setLoopNum(loopNum + 1)
-            }
-        }
-
-        const timer = setTimeout(handleTyping, typingSpeed)
-        return () => clearTimeout(timer)
-    }, [text, isDeleting, loopNum, typingSpeed])
+export default function Hero() {
+    const text = useTypewriter(profile.roles);
 
     return (
         <section id="home" className="relative flex min-h-screen flex-col items-center justify-center text-center py-20 overflow-hidden">
@@ -77,7 +53,7 @@ export default function Header() {
                 }}
                 className="text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl text-white drop-shadow-lg"
             >
-                Hi, Im <span className="text-blue-400">Evandri</span>
+                Hi, I&apos;m <span className="text-blue-400">{profile.shortName}</span>
             </motion.h1>
 
             <motion.p
@@ -89,20 +65,22 @@ export default function Header() {
                     damping: 20,
                     delay: 0.4
                 }}
-                className="mt-6 text-lg sm:text-xl md:text-2xl text-neutral-400 max-w-2xl px-4 flex items-center justify-center h-8"
+                className="mt-6 text-lg sm:text-xl md:text-2xl text-neutral-400 max-w-2xl px-4 flex items-center justify-center min-h-8"
             >
-                <span className="font-semibold text-white">
+                <span className="sr-only">{profile.roles.join(", ")}</span>
+                <span className="font-semibold text-white" aria-hidden="true">
                     {text}
                 </span>
 
                 <motion.span
+                    aria-hidden="true"
                     animate={{ opacity: [0, 1, 0] }}
                     transition={{
                         repeat: Infinity,
                         duration: 0.8,
                         ease: "linear"
                     }}
-                    className="ml-1 text-neutral-450 font-light"
+                    className="ml-1 text-neutral-500 font-light"
                 >
                     |
                 </motion.span>
@@ -122,8 +100,8 @@ export default function Header() {
                 <motion.a
                     whileHover={{ scale: 1.05 }}
                     whileTap={{ scale: 0.95 }}
-                    href="/cv/cv_evandri.pdf"
-                    download="cv_evandri.pdf"
+                    href={profile.cvPath}
+                    download="CV_Evandri_Ridho_Hasmono.pdf"
                     className="px-8 py-3 rounded-full bg-blue-600 text-white font-medium shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:bg-blue-500 transition-all duration-300">
                     Download CV
                 </motion.a>

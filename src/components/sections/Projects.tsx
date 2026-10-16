@@ -4,9 +4,11 @@ import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
 import Image from "next/image";
-import { projects } from "@/constants/projects";
+import Reveal from "@/components/ui/Reveal";
+import SectionHeading from "@/components/ui/SectionHeading";
+import { projects } from "@/data/projects";
 
-export default function Project() {
+export default function Projects() {
     const [currentIndex, setCurrentIndex] = useState(0);
     const [direction, setDirection] = useState(0);
 
@@ -53,16 +55,8 @@ export default function Project() {
 
     return (
         <section id="projects" className="py-20">
-            <motion.div
-                initial={{ opacity: 0, y: 50 }}
-                whileInView={{ opacity: 1, y: 0 }}
-                viewport={{ once: true, margin: "-100px" }}
-                transition={{ type: "spring", stiffness: 100, damping: 20 }}
-            >
-                <div className="flex flex-col items-center mb-12">
-                    <h2 className="text-3xl font-bold text-white">Featured Projects</h2>
-                    <div className="w-16 h-1 bg-blue-500 rounded mt-4"></div>
-                </div>
+            <Reveal>
+                <SectionHeading title="Featured Projects" />
 
                 <div className="relative max-w-4xl mx-auto px-4 md:px-0">
                     {/* Carousel Container */}
@@ -105,10 +99,16 @@ export default function Project() {
                                 {/* Right Column: Content */}
                                 <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between">
                                     <div>
-                                        <h3 className="font-bold text-2xl md:text-3xl mb-4 text-white group-hover:text-blue-400 transition-colors duration-300">
+                                        <p className="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">
+                                            {item.period}
+                                        </p>
+                                        <h3 className="font-bold text-2xl md:text-3xl text-white group-hover:text-blue-400 transition-colors duration-300">
                                             {item.title}
                                         </h3>
-                                        <p className="text-neutral-400 mb-6 leading-relaxed text-base text-justify">
+                                        {item.subtitle && (
+                                            <p className="text-neutral-300 font-medium mt-1">{item.subtitle}</p>
+                                        )}
+                                        <p className="text-neutral-400 mt-4 mb-6 leading-relaxed text-base">
                                             {item.description}
                                         </p>
                                     </div>
@@ -116,8 +116,8 @@ export default function Project() {
                                     <div>
                                         {/* Tech Stack */}
                                         <div className="flex flex-wrap gap-2 mb-8">
-                                            {item.tech.map((t, i) => (
-                                                <span key={i} className="px-3 py-1 bg-neutral-900 border border-neutral-800/80 text-neutral-300 text-xs font-medium rounded-full">
+                                            {item.tech.map((t) => (
+                                                <span key={t} className="px-3 py-1 bg-neutral-900 border border-neutral-800/80 text-neutral-300 text-xs font-medium rounded-full">
                                                     {t}
                                                 </span>
                                             ))}
@@ -173,7 +173,7 @@ export default function Project() {
                         ))}
                     </div>
                 </div>
-            </motion.div>
+            </Reveal>
         </section>
     );
 }

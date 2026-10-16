@@ -4,7 +4,8 @@ import { useState, useEffect } from "react";
 import Link from "next/link";
 import { motion, AnimatePresence } from "framer-motion";
 import { Menu, X } from "lucide-react";
-import { navLinks } from "@/constants/navLinks";
+import { navLinks } from "@/data/navigation";
+import { profile } from "@/data/profile";
 
 export default function Navbar() {
     const [isOpen, setIsOpen] = useState(false);
@@ -14,21 +15,22 @@ export default function Navbar() {
         const handleScroll = () => {
             setScrolled(window.scrollY > 20);
         };
-        window.addEventListener("scroll", handleScroll);
+        handleScroll();
+        window.addEventListener("scroll", handleScroll, { passive: true });
         return () => window.removeEventListener("scroll", handleScroll);
     }, []);
 
     return (
         <nav
-            className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-black/80 backdrop-blur-md border-b border-neutral-900 shadow-sm" : "bg-transparent absolute"
+            className={`fixed top-0 z-50 w-full transition-all duration-300 ${scrolled ? "bg-black/80 backdrop-blur-md border-b border-neutral-900 shadow-sm" : "bg-transparent"
                 }`}
         >
             <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
                 <div className="flex h-16 items-center justify-between">
                     <Link href="#home" className="text-xl font-bold text-white tracking-tight">
-                        Evandri<span className="text-blue-500">.</span>
+                        {profile.shortName}<span className="text-blue-500">.</span>
                     </Link>
- 
+
                     {/* Desktop Navigation */}
                     <ul className="hidden md:flex space-x-8 text-sm font-medium">
                         {navLinks.map((link) => (
@@ -43,11 +45,14 @@ export default function Navbar() {
                             </li>
                         ))}
                     </ul>
- 
+
                     {/* Mobile Menu Button */}
                     <div className="md:hidden">
                         <button
                             onClick={() => setIsOpen(!isOpen)}
+                            aria-label={isOpen ? "Close menu" : "Open menu"}
+                            aria-expanded={isOpen}
+                            aria-controls="mobile-nav"
                             className="text-neutral-400 hover:text-blue-400 focus:outline-none"
                         >
                             {isOpen ? <X size={24} /> : <Menu size={24} />}
@@ -55,7 +60,7 @@ export default function Navbar() {
                     </div>
                 </div>
             </div>
- 
+
             {/* Mobile Navigation */}
             <AnimatePresence>
                 {isOpen && (
@@ -64,6 +69,7 @@ export default function Navbar() {
                         animate={{ opacity: 1, height: "auto" }}
                         exit={{ opacity: 0, height: 0 }}
                         transition={{ duration: 0.3 }}
+                        id="mobile-nav"
                         className="md:hidden bg-neutral-950 border-b border-neutral-900 overflow-hidden"
                     >
                         <ul className="flex flex-col px-4 pt-2 pb-6 space-y-4 shadow-inner shadow-neutral-950/20">

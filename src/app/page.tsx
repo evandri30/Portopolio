@@ -1,23 +1,23 @@
-import Navbar from "@/components/Navbar";
-import Header from "@/components/Header";
-import AboutMe from "@/components/AboutMe";
-import Skill from "@/components/Skill";
-import Project from "@/components/Project";
-import Contact from "@/components/Contact";
-import Footer from "@/components/Footer";
+import Navbar from "@/components/layout/Navbar";
+import Footer from "@/components/layout/Footer";
+import Hero from "@/components/sections/Hero";
+import About from "@/components/sections/About";
+import Projects from "@/components/sections/Projects";
+import Skills from "@/components/sections/Skills";
+import Contact from "@/components/sections/Contact";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-black text-neutral-100 font-sans selection:bg-white/10 selection:text-white">
+    <div className="min-h-screen bg-black text-neutral-100 font-sans selection:bg-white/10 selection:text-white">
       <Navbar />
-      <div className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
-        <Header />
-        <AboutMe />
-        <Project />
-        <Skill />
+      <main className="mx-auto max-w-5xl px-4 sm:px-6 lg:px-8">
+        <Hero />
+        <About />
+        <Projects />
+        <Skills />
         <Contact />
-      </div>
+      </main>
       <Footer />
-    </main>
+    </div>
   );
 }
