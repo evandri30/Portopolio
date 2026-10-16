@@ -1,13 +1,23 @@
+import Reveal from "@/components/ui/Reveal";
+
 type SectionHeadingProps = {
     title: string;
+    /** Row count shown as a query result next to the title, e.g. 2 → "2 rows". */
+    rows?: number;
     className?: string;
 };
 
-export default function SectionHeading({ title, className = "mb-12" }: SectionHeadingProps) {
+export default function SectionHeading({ title, rows, className = "mb-14" }: SectionHeadingProps) {
     return (
-        <div className={`flex flex-col items-center ${className}`}>
-            <h2 className="text-3xl font-bold text-white">{title}</h2>
-            <div className="w-16 h-1 bg-blue-500 rounded mt-4" aria-hidden="true" />
-        </div>
+        <Reveal className={`flex items-end justify-between gap-6 border-b border-line pb-5 ${className}`}>
+            <h2 className="text-4xl font-semibold tracking-tight text-text sm:text-5xl [font-stretch:90%]">
+                {title}
+            </h2>
+            {rows !== undefined && (
+                <p className="shrink-0 pb-1.5 font-mono text-xs text-muted">
+                    {rows} {rows === 1 ? "row" : "rows"}
+                </p>
+            )}
+        </Reveal>
     );
 }

@@ -1,118 +1,233 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion } from "framer-motion";
+import { Download } from "lucide-react";
 import { profile } from "@/data/profile";
-import { useTypewriter } from "@/hooks/useTypewriter";
+import { EASE_OUT } from "@/lib/motion";
+
+const NAME_DELAY = 0.15;
+const TYPE_START_MS = 900;
+const TYPE_MS = 28;
+
+type Token = { text: string; kind: "keyword" | "string" | "plain" };
+
+/** The hero query, built from the columns the profile "returns". */
+function buildQuery(): Token[] {
+    const columns = profile.queryResult.map((c) => c.column).join(", ");
+    return [
+        { text: "SELECT ", kind: "keyword" },
+        { text: `${columns}\n`, kind: "plain" },
+        { text: "FROM ", kind: "keyword" },
+        { text: "engineers\n", kind: "plain" },
+        { text: "WHERE ", kind: "keyword" },
+        { text: "name = ", kind: "plain" },
+        { text: `'${profile.shortName}'`, kind: "string" },
+        { text: ";", kind: "plain" },
+    ];
+}
+
+const tokens = buildQuery();
+const queryText = tokens.map((t) => t.text).join("");
+/** Character offset where each token starts in `queryText`. */
+const tokenStarts = tokens.map((_, i) => tokens.slice(0, i).reduce((n, t) => n + t.text.length, 0));
+
+const tokenClass: Record<Token["kind"], string> = {
+    keyword: "text-amber",
+    string: "text-text",
+    plain: "text-muted",
+};
 
 export default function Hero() {
-    const text = useTypewriter(profile.roles);
+    const reduce = useReducedMotion();
+    const [typed, setTyped] = useState(0);
+    const done = typed >= queryText.length;
+
+    // Pointer-following spotlight over the dot grid.
+    const mx = useMotionValue(-1000);
+    const my = useMotionValue(-1000);
+    const spotlight = useMotionTemplate`radial-gradient(420px circle at ${mx}px ${my}px, rgba(243, 179, 61, 0.09), transparent 70%)`;
+
+    useEffect(() => {
+        // Reduced motion: show the whole query at once. Decided client-side only, so the
+        // server HTML and the first client render stay identical (no hydration mismatch).
+        if (reduce) {
+            const t = setTimeout(() => setTyped(queryText.length), 0);
+            return () => clearTimeout(t);
+        }
+        let interval: ReturnType<typeof setInterval>;
+        const start = setTimeout(() => {
+            interval = setInterval(() => {
+                setTyped((n) => {
+                    if (n >= queryText.length) {
+                        clearInterval(interval);
+                        return n;
+                    }
+                    return n + 1;
+                });
+            }, TYPE_MS);
+        }, TYPE_START_MS);
+        return () => {
+            clearTimeout(start);
+            clearInterval(interval);
+        };
+    }, [reduce]);
+
+    // First and middle name on one line, surname on the next.
+    const words = profile.name.split(" ");
+    const nameLines = [words.slice(0, -1).join(" "), words.at(-1) ?? ""];
 
     return (
-        <section id="home" className="relative flex min-h-screen flex-col items-center justify-center text-center py-20 overflow-hidden">
-            {/* Background elements */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-full max-w-4xl opacity-20 pointer-events-none -z-10">
+        <section
+            id="home"
+            onPointerMove={(e) => {
+                const rect = e.currentTarget.getBoundingClientRect();
+                mx.set(e.clientX - rect.left);
+                my.set(e.clientY - rect.top);
+            }}
+            className="relative isolate flex min-h-svh flex-col justify-center pt-24 pb-12"
+        >
+            {/* Dot grid + spotlight */}
+            <div
+                aria-hidden="true"
+                className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 bg-[radial-gradient(var(--color-line)_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]"
+            />
+            <motion.div
+                aria-hidden="true"
+                style={{ background: spotlight }}
+                className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
+            />
+
+            <h1 className="text-[clamp(3rem,10vw,9rem)] leading-[0.92] font-bold tracking-[-0.015em] text-text [font-stretch:88%]">
+                {nameLines.map((word, i) => (
+                    <span key={word} className="block overflow-hidden pb-[0.08em]">
+                        <motion.span
+                            className="block"
+                            initial={{ y: "105%" }}
+                            animate={{ y: 0 }}
+                            transition={{ duration: 1.1, ease: EASE_OUT, delay: NAME_DELAY + i * 0.12 }}
+                        >
+                            {word}
+                        </motion.span>
+                    </span>
+                ))}
+            </h1>
+
+            <div className="mt-10 grid gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end">
                 <motion.div
-                    animate={{
-                        scale: [1, 1.15, 0.9, 1],
-                        x: [0, 30, -30, 0],
-                        y: [0, -30, 30, 0],
-                    }}
-                    transition={{
-                        duration: 25,
-                        repeat: Infinity,
-                        ease: "easeInOut"
-                    }}
-                    className="absolute top-1/3 left-1/3 w-80 h-80 bg-blue-900 rounded-full filter blur-[120px] opacity-40"
-                />
-            </div>
-
-            <motion.div
-                initial={{ opacity: 0, scale: 0.5, y: -20 }}
-                animate={{ opacity: 1, scale: 1, y: 0 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 260,
-                    damping: 20,
-                    duration: 0.8
-                }}
-                className="inline-block mb-4"
-            >
-                <div className="px-4 py-1.5 rounded-full border border-blue-900/50 bg-blue-900/20 text-blue-400 text-sm font-semibold tracking-wide backdrop-blur-sm hover:border-blue-700 transition-colors duration-300">
-                    Available for new opportunities
-                </div>
-            </motion.div>
-
-            <motion.h1
-                initial={{ opacity: 0, y: 50, scale: 0.9 }}
-                animate={{ opacity: 1, y: 0, scale: 1 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 200,
-                    damping: 20,
-                    delay: 0.2
-                }}
-                className="text-5xl font-extrabold tracking-tight sm:text-7xl lg:text-8xl text-white drop-shadow-lg"
-            >
-                Hi, I&apos;m <span className="text-blue-400">{profile.shortName}</span>
-            </motion.h1>
-
-            <motion.p
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 150,
-                    damping: 20,
-                    delay: 0.4
-                }}
-                className="mt-6 text-lg sm:text-xl md:text-2xl text-neutral-400 max-w-2xl px-4 flex items-center justify-center min-h-8"
-            >
-                <span className="sr-only">{profile.roles.join(", ")}</span>
-                <span className="font-semibold text-white" aria-hidden="true">
-                    {text}
-                </span>
-
-                <motion.span
-                    aria-hidden="true"
-                    animate={{ opacity: [0, 1, 0] }}
-                    transition={{
-                        repeat: Infinity,
-                        duration: 0.8,
-                        ease: "linear"
-                    }}
-                    className="ml-1 text-neutral-500 font-light"
+                    initial={{ opacity: 0, y: 16 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.6 }}
                 >
-                    |
-                </motion.span>
-            </motion.p>
+                    <p className="max-w-md text-lg leading-relaxed text-muted sm:text-xl">
+                        {profile.tagline} Based in {profile.location}.
+                    </p>
+                    <div className="mt-8 flex flex-wrap gap-3">
+                        <motion.a
+                            href={profile.cvPath}
+                            download="CV_Evandri_Ridho_Hasmono.pdf"
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-medium text-ink transition-colors hover:bg-[#f7c565]"
+                        >
+                            <Download className="size-4" aria-hidden="true" />
+                            Download CV
+                        </motion.a>
+                        <motion.a
+                            href={`mailto:${profile.email}`}
+                            whileHover={{ y: -2 }}
+                            whileTap={{ scale: 0.97 }}
+                            className="inline-flex items-center rounded-full border border-line px-6 py-3 font-medium text-text transition-colors hover:border-muted"
+                        >
+                            Email me
+                        </motion.a>
+                    </div>
+                </motion.div>
 
-            <motion.div
-                initial={{ opacity: 0, y: 30 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{
-                    type: "spring",
-                    stiffness: 150,
-                    damping: 20,
-                    delay: 0.6
-                }}
-                className="mt-10 flex flex-col sm:flex-row gap-4"
-            >
-                <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href={profile.cvPath}
-                    download="CV_Evandri_Ridho_Hasmono.pdf"
-                    className="px-8 py-3 rounded-full bg-blue-600 text-white font-medium shadow-[0_0_20px_rgba(37,99,235,0.3)] hover:shadow-[0_0_30px_rgba(37,99,235,0.6)] hover:bg-blue-500 transition-all duration-300">
-                    Download CV
-                </motion.a>
-                <motion.a
-                    whileHover={{ scale: 1.05 }}
-                    whileTap={{ scale: 0.95 }}
-                    href="#contact"
-                    className="px-8 py-3 rounded-full bg-transparent text-neutral-300 border border-neutral-800 font-medium hover:bg-neutral-900/60 hover:border-neutral-500 hover:text-white transition-all duration-300 shadow-sm">
-                    Get in Touch
-                </motion.a>
-            </motion.div>
+                {/* SQL console */}
+                <motion.div
+                    initial={{ opacity: 0, y: 24 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.5 }}
+                    className="overflow-hidden rounded-xl border border-line bg-panel/80 font-mono text-[13px] leading-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] backdrop-blur-sm sm:text-sm"
+                >
+                    <div className="flex items-center justify-between border-b border-line px-4 py-2.5 text-xs text-muted">
+                        <span>portfolio=# </span>
+                        <span>postgres</span>
+                    </div>
+
+                    <div className="p-4 sm:p-5">
+                        <p className="sr-only">{queryText}</p>
+                        <pre aria-hidden="true" className="min-h-[4.5rem] whitespace-pre-wrap">
+                            <TypedQuery count={typed} />
+                            {!done && <Caret />}
+                        </pre>
+
+                        <motion.div
+                            initial={false}
+                            animate={done ? "shown" : "hidden"}
+                            variants={{ hidden: {}, shown: { transition: { staggerChildren: 0.09, delayChildren: 0.15 } } }}
+                            className="mt-4"
+                        >
+                            <motion.p
+                                variants={rowVariants}
+                                className="border-b border-dashed border-line pb-1 text-xs text-muted"
+                            >
+                                -[ RECORD 1 ]
+                            </motion.p>
+                            <dl className="mt-2">
+                                {profile.queryResult.map(({ column, value }) => (
+                                    <motion.div
+                                        key={column}
+                                        variants={rowVariants}
+                                        className="grid grid-cols-[6.5rem_1ch_minmax(0,1fr)] gap-x-2 sm:grid-cols-[7.5rem_1ch_minmax(0,1fr)]"
+                                    >
+                                        <dt className="text-muted">{column}</dt>
+                                        <span className="text-line" aria-hidden="true">|</span>
+                                        <dd className="text-text">{value}</dd>
+                                    </motion.div>
+                                ))}
+                            </dl>
+                            <motion.p variants={rowVariants} className="mt-3 text-xs text-teal">
+                                (1 row)
+                            </motion.p>
+                        </motion.div>
+                    </div>
+                </motion.div>
+            </div>
         </section>
+    );
+}
+
+const rowVariants = {
+    hidden: { opacity: 0, x: -10 },
+    shown: { opacity: 1, x: 0, transition: { duration: 0.5, ease: EASE_OUT } },
+};
+
+/** Renders the first `count` characters of the query, keeping syntax colors per token. */
+function TypedQuery({ count }: { count: number }) {
+    return (
+        <>
+            {tokens.map((t, i) => {
+                const visible = count - tokenStarts[i];
+                if (visible <= 0) return null;
+                const part = t.text.slice(0, visible);
+                return (
+                    <span key={i} className={tokenClass[t.kind]}>
+                        {part}
+                    </span>
+                );
+            })}
+        </>
+    );
+}
+
+function Caret() {
+    return (
+        <motion.span
+            className="ml-px inline-block h-[1.1em] w-[0.55em] translate-y-[0.2em] bg-amber"
+            animate={{ opacity: [1, 0] }}
+            transition={{ duration: 0.6, repeat: Infinity, repeatType: "reverse", ease: "linear" }}
+        />
     );
 }

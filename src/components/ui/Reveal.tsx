@@ -1,6 +1,7 @@
 "use client";
 
 import { motion } from "framer-motion";
+import { EASE_OUT } from "@/lib/motion";
 
 type RevealProps = {
     children: React.ReactNode;
@@ -8,14 +9,14 @@ type RevealProps = {
     delay?: number;
 };
 
-/** Fades and slides its children up the first time they scroll into view. */
+/** Fades and lifts its children slightly the first time they scroll into view. */
 export default function Reveal({ children, className, delay = 0 }: RevealProps) {
     return (
         <motion.div
-            initial={{ opacity: 0, y: 50 }}
+            initial={{ opacity: 0, y: 24 }}
             whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ type: "spring", stiffness: 100, damping: 20, delay }}
+            viewport={{ once: true, margin: "-80px" }}
+            transition={{ duration: 0.8, ease: EASE_OUT, delay }}
             className={className}
         >
             {children}

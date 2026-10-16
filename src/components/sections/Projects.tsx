@@ -1,179 +1,183 @@
 "use client";
 
-import { useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowUpRight, ChevronLeft, ChevronRight } from "lucide-react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import Image from "next/image";
-import Reveal from "@/components/ui/Reveal";
+import { motion, useScroll, useSpring, useTransform } from "framer-motion";
+import { ArrowUpRight } from "lucide-react";
+import CountUp from "@/components/ui/CountUp";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { projects } from "@/data/projects";
+import { EASE_OUT } from "@/lib/motion";
+import type { Project } from "@/types";
 
+const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
+
+/** Pins the section on ≥1024px screens and turns vertical scroll into a horizontal gallery. */
 export default function Projects() {
-    const [currentIndex, setCurrentIndex] = useState(0);
-    const [direction, setDirection] = useState(0);
+    const sectionRef = useRef<HTMLElement>(null);
+    const viewportRef = useRef<HTMLDivElement>(null);
+    const trackRef = useRef<HTMLDivElement>(null);
+    const [distance, setDistance] = useState(0);
+    const [desktop, setDesktop] = useState(false);
 
-    const handleNext = () => {
-        setDirection(1);
-        setCurrentIndex((prev) => (prev + 1) % projects.length);
-    };
+    useIsoLayoutEffect(() => {
+        const mq = window.matchMedia("(min-width: 1024px)");
+        const measure = () => {
+            setDesktop(mq.matches);
+            const track = trackRef.current;
+            const viewport = viewportRef.current;
+            if (track && viewport) setDistance(Math.max(0, track.scrollWidth - viewport.clientWidth));
+        };
+        measure();
+        const ro = new ResizeObserver(measure);
+        if (trackRef.current) ro.observe(trackRef.current);
+        mq.addEventListener("change", measure);
+        window.addEventListener("resize", measure);
+        return () => {
+            ro.disconnect();
+            mq.removeEventListener("change", measure);
+            window.removeEventListener("resize", measure);
+        };
+    }, []);
 
-    const handlePrev = () => {
-        setDirection(-1);
-        setCurrentIndex((prev) => (prev - 1 + projects.length) % projects.length);
-    };
+    const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
+    const smooth = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.0005 });
+    const x = useTransform(smooth, [0, 1], [0, -distance]);
 
-    const handleDotClick = (index: number) => {
-        setDirection(index > currentIndex ? 1 : -1);
-        setCurrentIndex(index);
-    };
-
-    const item = projects[currentIndex];
-
-    // Variants for transition animation (smooth translation + fade)
-    const slideVariants = {
-        enter: (dir: number) => ({
-            x: dir > 0 ? 50 : -50,
-            opacity: 0
-        }),
-        center: {
-            x: 0,
-            opacity: 1,
-            transition: {
-                x: { type: "spring" as const, stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
-            }
-        },
-        exit: (dir: number) => ({
-            x: dir < 0 ? 50 : -50,
-            opacity: 0,
-            transition: {
-                x: { type: "spring" as const, stiffness: 300, damping: 30 },
-                opacity: { duration: 0.2 }
-            }
-        })
-    };
+    const pinned = desktop && distance > 0;
 
     return (
-        <section id="projects" className="py-20">
-            <Reveal>
-                <SectionHeading title="Featured Projects" />
+        <section
+            id="projects"
+            ref={sectionRef}
+            className="relative py-24 sm:py-32 lg:py-0"
+            // Scroll length = horizontal distance + one screen, so the pin releases right as the last card lands.
+            style={pinned ? { height: `calc(${distance}px + 100svh)` } : undefined}
+        >
+            <div className={pinned ? "sticky top-0 flex h-svh flex-col justify-center" : ""}>
+                <SectionHeading title="Projects" rows={projects.length} className="mb-10 lg:mb-8" />
 
-                <div className="relative max-w-4xl mx-auto px-4 md:px-0">
-                    {/* Carousel Container */}
-                    <div className="overflow-hidden min-h-[520px] md:min-h-[400px]">
-                        <AnimatePresence mode="wait" custom={direction}>
-                            <motion.div
-                                key={currentIndex}
-                                custom={direction}
-                                variants={slideVariants}
-                                initial="enter"
-                                animate="center"
-                                exit="exit"
-                                className="group bg-neutral-950 border border-neutral-900 rounded-3xl overflow-hidden shadow-sm hover:shadow-[0_20px_40px_rgba(59,130,246,0.08)] hover:border-blue-500/30 transition-all duration-300 flex flex-col md:flex-row h-full relative"
-                            >
-                                {/* Left Column: Image/Placeholder */}
-                                <div className={`w-full md:w-1/2 min-h-[240px] md:min-h-[400px] ${item.color} relative overflow-hidden flex items-center justify-center`}>
-                                    {item.image ? (
-                                        <Image
-                                            src={item.image}
-                                            alt={item.title}
-                                            fill
-                                            sizes="(max-width: 768px) 100vw, 450px"
-                                            className="object-cover"
-                                        />
-                                    ) : (
-                                        <div className="flex flex-col items-center justify-center text-center p-8 w-full h-full">
-                                            <div className="absolute inset-0 bg-neutral-950/20 group-hover:bg-transparent transition-colors duration-300"></div>
-                                            <motion.div
-                                                className="absolute -right-10 -bottom-10 w-32 h-32 bg-white/5 rounded-full blur-2xl"
-                                                animate={{ scale: [1, 1.2, 1] }}
-                                                transition={{ duration: 4, repeat: Infinity, ease: "easeInOut" }}
-                                            ></motion.div>
-                                            <span className="text-white/20 font-bold text-6xl tracking-widest uppercase select-none z-10">
-                                                {item.title.substring(0, 2)}
-                                            </span>
-                                        </div>
-                                    )}
-                                </div>
-
-                                {/* Right Column: Content */}
-                                <div className="w-full md:w-1/2 p-8 md:p-12 flex flex-col justify-between">
-                                    <div>
-                                        <p className="text-xs font-medium uppercase tracking-wider text-neutral-500 mb-2">
-                                            {item.period}
-                                        </p>
-                                        <h3 className="font-bold text-2xl md:text-3xl text-white group-hover:text-blue-400 transition-colors duration-300">
-                                            {item.title}
-                                        </h3>
-                                        {item.subtitle && (
-                                            <p className="text-neutral-300 font-medium mt-1">{item.subtitle}</p>
-                                        )}
-                                        <p className="text-neutral-400 mt-4 mb-6 leading-relaxed text-base">
-                                            {item.description}
-                                        </p>
-                                    </div>
-
-                                    <div>
-                                        {/* Tech Stack */}
-                                        <div className="flex flex-wrap gap-2 mb-8">
-                                            {item.tech.map((t) => (
-                                                <span key={t} className="px-3 py-1 bg-neutral-900 border border-neutral-800/80 text-neutral-300 text-xs font-medium rounded-full">
-                                                    {t}
-                                                </span>
-                                            ))}
-                                        </div>
-
-                                        {/* Action Link */}
-                                        {item.link && (
-                                            <a
-                                                href={item.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                className="inline-flex items-center text-blue-400 font-semibold hover:text-blue-300 transition-colors group/link mt-auto"
-                                            >
-                                                View Project
-                                                <ArrowUpRight className="ml-1.5 w-5 h-5 transform group-hover/link:-translate-y-0.5 group-hover/link:translate-x-0.5 transition-transform" />
-                                            </a>
-                                        )}
-                                    </div>
-                                </div>
-                            </motion.div>
-                        </AnimatePresence>
-                    </div>
-
-                    {/* Navigation Buttons */}
-                    <button
-                        onClick={handlePrev}
-                        className="absolute left-2 md:-left-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-neutral-900 border border-neutral-800 text-white hover:border-blue-500 hover:text-blue-400 flex items-center justify-center transition-all duration-300 shadow-md z-20 cursor-pointer"
-                        aria-label="Previous Project"
+                <div ref={viewportRef} className="lg:overflow-visible">
+                    <motion.div
+                        ref={trackRef}
+                        style={pinned ? { x } : undefined}
+                        className="flex flex-col gap-16 lg:w-max lg:flex-row lg:gap-8"
                     >
-                        <ChevronLeft size={24} />
-                    </button>
-                    <button
-                        onClick={handleNext}
-                        className="absolute right-2 md:-right-16 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-neutral-900 border border-neutral-800 text-white hover:border-blue-500 hover:text-blue-400 flex items-center justify-center transition-all duration-300 shadow-md z-20 cursor-pointer"
-                        aria-label="Next Project"
-                    >
-                        <ChevronRight size={24} />
-                    </button>
-
-                    {/* Dot Indicators */}
-                    <div className="flex justify-center space-x-3 mt-8">
-                        {projects.map((_, index) => (
-                            <button
-                                key={index}
-                                onClick={() => handleDotClick(index)}
-                                className={`w-3 h-3 rounded-full transition-all duration-300 cursor-pointer ${
-                                    index === currentIndex
-                                        ? "bg-blue-500 w-8"
-                                        : "bg-neutral-800 hover:bg-neutral-700"
-                                }`}
-                                aria-label={`Go to slide ${index + 1}`}
-                            />
+                        {projects.map((project) => (
+                            <ProjectCard key={project.title} project={project} />
                         ))}
-                    </div>
+                    </motion.div>
                 </div>
-            </Reveal>
+
+                {pinned && (
+                    <div className="mt-8 h-px w-full bg-line" aria-hidden="true">
+                        <motion.div style={{ scaleX: smooth }} className="h-px origin-left bg-amber" />
+                    </div>
+                )}
+            </div>
         </section>
+    );
+}
+
+function ProjectCard({ project }: { project: Project }) {
+    const { title, subtitle, period, description, tech, metrics, link, image } = project;
+
+    return (
+        <article className="group flex flex-col lg:w-[min(46rem,62vw)] lg:flex-row lg:gap-7">
+            <motion.div
+                initial={{ clipPath: "inset(12% 12% 12% 12% round 16px)", opacity: 0 }}
+                whileInView={{ clipPath: "inset(0% 0% 0% 0% round 12px)", opacity: 1 }}
+                viewport={{ once: true, amount: 0.3 }}
+                transition={{ duration: 1.1, ease: EASE_OUT }}
+                className="relative aspect-[16/10] shrink-0 overflow-hidden rounded-xl border border-line bg-panel lg:aspect-auto lg:h-[min(52svh,26rem)] lg:w-[55%]"
+            >
+                {image ? (
+                    <Image
+                        src={image}
+                        alt={`Screenshot of ${title}`}
+                        fill
+                        sizes="(max-width: 1024px) 100vw, 420px"
+                        className="object-cover object-top transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
+                    />
+                ) : (
+                    <DashboardFallback />
+                )}
+            </motion.div>
+
+            <div className="mt-6 flex min-w-0 flex-col lg:mt-0 lg:flex-1 lg:py-1">
+                <p className="font-mono text-xs text-muted">{period}</p>
+                <h3 className="mt-2 text-2xl leading-tight font-semibold tracking-tight text-text sm:text-3xl lg:text-2xl xl:text-3xl">
+                    {title}
+                </h3>
+                {subtitle && <p className="mt-1 text-muted">{subtitle}</p>}
+                <p className="mt-4 text-[15px] leading-relaxed text-text/80">{description}</p>
+
+                {metrics && (
+                    <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
+                        {metrics.map((m) => (
+                            <div key={m.label}>
+                                <dd className="text-2xl font-semibold tracking-tight text-amber">
+                                    <CountUp value={m.value} decimals={m.decimals} suffix={m.suffix} />
+                                </dd>
+                                <dt className="font-mono text-xs text-muted">{m.label}</dt>
+                            </div>
+                        ))}
+                    </dl>
+                )}
+
+                <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
+                    {tech.map((t) => (
+                        <li key={t} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
+                            {t}
+                        </li>
+                    ))}
+                </ul>
+
+                {link && (
+                    <a
+                        href={link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/link mt-6 inline-flex w-fit items-center gap-1 border-b border-amber/40 pb-0.5 font-medium text-amber transition-colors hover:border-amber"
+                    >
+                        Open live project
+                        <ArrowUpRight
+                            className="size-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                            aria-hidden="true"
+                        />
+                    </a>
+                )}
+            </div>
+        </article>
+    );
+}
+
+/** Stand-in artwork for projects without a screenshot: an abstract dashboard whose bars grow in. */
+function DashboardFallback() {
+    const bars = [38, 64, 52, 81, 70, 92, 58, 76];
+    return (
+        <div aria-hidden="true" className="absolute inset-0 flex flex-col p-6">
+            <div className="flex gap-3">
+                {[0, 1, 2].map((i) => (
+                    <div key={i} className="h-12 flex-1 rounded-md border border-line bg-ink/50 p-2">
+                        <div className="h-1.5 w-1/2 rounded bg-line" />
+                        <div className="mt-2 h-2.5 w-3/4 rounded bg-muted/40" />
+                    </div>
+                ))}
+            </div>
+            <div className="mt-4 flex flex-1 items-end gap-2 rounded-md border border-line bg-ink/50 p-4">
+                {bars.map((h, i) => (
+                    <motion.div
+                        key={i}
+                        className="flex-1 origin-bottom rounded-t-sm bg-amber/80"
+                        style={{ height: `${h}%` }}
+                        initial={{ scaleY: 0 }}
+                        whileInView={{ scaleY: 1 }}
+                        viewport={{ once: true }}
+                        transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.4 + i * 0.06 }}
+                    />
+                ))}
+            </div>
+        </div>
     );
 }

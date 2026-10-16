@@ -1,24 +1,65 @@
 @import "tailwindcss";
 
-:root {
-  --background: #000000;
-  --foreground: #ffffff;
-}
-
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: #0d1520;
+  --color-panel: #142030;
+  --color-line: #22324a;
+  --color-text: #e4e9f0;
+  --color-muted: #8b98ab;
+  --color-amber: #f3b33d;
+  --color-teal: #4fc1b0;
+
+  --font-sans: var(--font-bricolage);
+  --font-mono: var(--font-jetbrains);
+
+  --ease-out-expo: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
+/* `clip` (not `hidden`) so the pinned project gallery can bleed past the edges without
+   creating a horizontal scrollbar or breaking `position: sticky`. */
 html {
-  scroll-behavior: smooth;
+  color-scheme: dark;
+  overflow-x: clip;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  overflow-x: hidden;
+  background: var(--color-ink);
+  color: var(--color-text);
+  overflow-x: clip;
 }
 
+::selection {
+  background: color-mix(in oklab, var(--color-amber) 35%, transparent);
+  color: var(--color-text);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-amber);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+
+/* Reserve space under the fixed navbar when jumping to a section. */
+section[id] {
+  scroll-margin-top: 5rem;
+}
+
+/* Lenis (lenis/dist/lenis.css isn't exported by the package). */
+html.lenis,
+html.lenis body {
+  height: auto;
+}
+
+.lenis:not(.lenis-autoToggle).lenis-stopped {
+  overflow: clip;
+}
+
+.lenis.lenis-smooth iframe {
+  pointer-events: none;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  html:not(.lenis) {
+    scroll-behavior: smooth;
+  }
+}

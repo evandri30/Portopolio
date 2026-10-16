@@ -9,8 +9,17 @@ export type SocialLink = {
     label: string;
     href: string;
     icon: IconType;
-    /** Tailwind classes applied on hover (brand color). */
-    hoverClass: string;
+};
+
+/** One column of the hero's mock SQL result row. */
+export type QueryColumn = {
+    column: string;
+    value: string;
+};
+
+export type Fact = {
+    label: string;
+    value: string;
 };
 
 export type Profile = {
@@ -18,11 +27,26 @@ export type Profile = {
     shortName: string;
     location: string;
     email: string;
+    /** One-line intro under the hero name. */
+    tagline: string;
     summary: string;
-    /** Lines cycled by the typing effect in the hero. */
-    roles: string[];
+    /** Closing headline of the contact section. */
+    contactHeadline: string;
+    /** Columns the hero query "returns" for the profile row. */
+    queryResult: QueryColumn[];
+    /** Short key/value facts next to the summary. */
+    facts: Fact[];
     cvPath: string;
     socials: SocialLink[];
+};
+
+export type Metric = {
+    label: string;
+    /** Numeric value, rendered with a count-up. */
+    value: number;
+    /** Decimal places to show. */
+    decimals: number;
+    suffix: string;
 };
 
 export type Project = {
@@ -31,9 +55,8 @@ export type Project = {
     period: string;
     description: string;
     tech: string[];
+    metrics?: Metric[];
     link: string | null;
-    /** Tailwind background classes shown behind the image / placeholder. */
-    color: string;
     image: string | null;
 };
 
@@ -41,7 +64,9 @@ export type Experience = {
     role: string;
     company: string;
     period: string;
+    current: boolean;
     highlights: string[];
+    tech: string[];
 };
 
 export type Education = {
@@ -49,7 +74,8 @@ export type Education = {
     degree: string;
     location: string;
     period: string;
-    gpa: string;
+    gpa: number;
+    gpaScale: number;
     coursework: string[];
 };
 
@@ -69,4 +95,9 @@ export type Skill = {
 export type SkillCategory = {
     title: string;
     skills: Skill[];
+};
+
+export type SpokenLanguage = {
+    name: string;
+    level: string;
 };

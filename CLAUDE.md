@@ -33,40 +33,42 @@ npm run build   # must pass before a change is considered done
 
 ```
 src/
-  app/            layout.tsx (fonts, metadata, MotionProvider), page.tsx (section order), globals.css
+  app/            layout.tsx (fonts, metadata, MotionProvider + SmoothScroll), page.tsx (section order),
+                  globals.css (design tokens), opengraph-image.tsx
   components/
-    sections/     one file per page section: Hero, About, Projects, Skills, Contact
-    layout/       Navbar, Footer, MotionProvider
-    ui/           shared primitives: Reveal (scroll-in animation), SectionHeading
+    sections/     one file per page section: Hero, About, Experience, Projects, Skills, Credentials, Contact
+    layout/       Navbar, Footer, MotionProvider, SmoothScroll (Lenis)
+    ui/           shared primitives: Reveal, SectionHeading, ScrollText, CountUp, Marquee
   data/           ALL content, typed, plain .ts (no JSX)
-                  profile.ts (name, summary, roles, socials, cvPath), experience.ts (experience,
-                  education, certifications), projects.ts, skills.ts, navigation.ts
-  hooks/          useTypewriter (hero role cycler)
+                  profile.ts (name, tagline, summary, hero query result, facts, socials, cvPath),
+                  experience.ts (experience, education, certifications), projects.ts, skills.ts
+                  (skill categories, soft skills, spoken languages), navigation.ts
+  lib/motion.ts   shared easing (EASE_OUT)
   types/index.ts  every content type in one file; import via `@/types`
 public/images/    project screenshots
 public/cv/        downloadable CV
 ```
 
+Section order: Hero → About → Experience → Projects → Skills → Education & Certifications (`#education`) → Contact.
+
 Rules:
 - **Content lives in `src/data/`, never hardcoded in components.** Components only render data. Data files hold no JSX/className markup — icons are stored as `IconType` references and brand colors as hex strings; the component decides how to render them.
 - New section → `components/sections/X.tsx` + `<section id="x">` + entry in `data/navigation.ts` + add to `page.tsx`.
-- Wrap section content in `<Reveal>` and use `<SectionHeading>` instead of re-writing the motion/heading markup.
-- `page.tsx`, `layout.tsx` and static sections (e.g. `About`) stay server components. Add `"use client"` only to files that use hooks or `motion.*` directly.
-- `MotionProvider` sets `reducedMotion="user"`; don't bypass it with raw CSS keyframe animations.
+- Use `<SectionHeading>` (pass `rows` when the section is a list) and `<Reveal>` instead of re-writing heading/motion markup.
+- `page.tsx`, `layout.tsx` and static sections (`About`, `Credentials`) stay server components. Add `"use client"` only to files that use hooks or `motion.*` directly.
+- `MotionProvider` sets `reducedMotion="user"`; Lenis honors reduced motion itself. Don't add raw CSS keyframe animations. Never branch render output on `useReducedMotion()` (server and client differ → hydration error); act on it inside effects.
+- `html`/`body` use `overflow-x: clip` so the pinned project gallery can bleed past the edges; don't change it to `hidden` (breaks `position: sticky`).
 - Path alias `@/*` → `src/*`.
 
-## Visual language
+## Visual language — "Query Console"
 
-Black background, `neutral-900/950` cards with `neutral-800/900` borders, `rounded-3xl`, white headings, `neutral-300/400` body text, blue-400/500/600 accent, subtle spring animations (`whileInView`, `viewport={{ once: true }}`). Keep new sections consistent with this unless doing a deliberate redesign. Use `next/image` for images. Copy is English, concise and concrete — CV numbers and outcomes over adjectives.
+The site speaks the language of a data engineer: the hero types a SQL query and "returns" the profile as a psql record.
 
-## Revamp direction (CV alignment)
-
-Target section order: Hero → About → **Experience** → Projects → Skills → **Education & Certifications** → Contact.
-
-- Data for Experience, Education and Certifications already exists in `src/data/experience.ts`; the sections that render them are not built yet.
-- The hero badge/roles should lead with the data-engineering positioning.
-- Tokopaedi has no screenshot yet (renders an initials placeholder); add `public/images/tokopaedi.png` when available.
-- No Open Graph image yet (`app/opengraph-image.*`).
+- Colors (Tailwind tokens from `@theme` in `globals.css`): `ink` #0D1520 background, `panel` #142030 surfaces, `line` #22324A borders/rules, `text` #E4E9F0, `muted` #8B98AB, `amber` #F3B33D (the one accent: CTA, keywords, progress), `teal` #4FC1B0 (sparingly: "current"/success states).
+- Type: Bricolage Grotesque for everything (display headings use `[font-stretch:88%]`, tracking no tighter than ~-0.02em or letters collide); JetBrains Mono only for real data bits (query, dates, row counts, tech tags, small labels).
+- No ALL-CAPS eyebrows, no middle-dot meta strings, no 01/02 numbering. Console panels `rounded-xl` + 1px `line` border; buttons `rounded-full`.
+- Motion: one orchestrated hero load; scroll-linked motion elsewhere (word-by-word About text, timeline rail, pinned horizontal projects ≥1024px); user-triggered micro-interactions. Easing `EASE_OUT` from `@/lib/motion`.
+- Tokopaedi has no screenshot (renders an animated dashboard placeholder); add `public/images/tokopaedi.png` and set `image` when available.
 
 ## Done means
 

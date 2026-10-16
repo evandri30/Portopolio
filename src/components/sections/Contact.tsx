@@ -1,40 +1,89 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { useEffect, useState } from "react";
+import { AnimatePresence, motion } from "framer-motion";
+import { Check, Copy } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
 import { profile } from "@/data/profile";
+import { EASE_OUT } from "@/lib/motion";
 
 export default function Contact() {
+    const [copied, setCopied] = useState(false);
+
+    useEffect(() => {
+        if (!copied) return;
+        const t = setTimeout(() => setCopied(false), 2000);
+        return () => clearTimeout(t);
+    }, [copied]);
+
+    const copyEmail = async () => {
+        try {
+            await navigator.clipboard.writeText(profile.email);
+            setCopied(true);
+        } catch {
+            window.location.href = `mailto:${profile.email}`;
+        }
+    };
+
     return (
-        <section id="contact" className="py-20 text-center relative overflow-hidden">
-            {/* Background decorative blob */}
-            <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full max-w-lg h-64 bg-blue-900 rounded-full blur-[120px] opacity-10 -z-10 pointer-events-none" />
+        <section id="contact" className="py-24 sm:py-32">
+            <Reveal>
+                <h2 className="max-w-[14ch] text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.95] font-bold tracking-[-0.015em] text-text [font-stretch:88%]">
+                    {profile.contactHeadline}
+                </h2>
+            </Reveal>
 
-            <Reveal className="bg-neutral-950 border border-neutral-900 p-10 rounded-3xl shadow-lg max-w-2xl mx-auto">
-                <h2 className="text-3xl font-bold mb-6 text-white">Let&apos;s Connect</h2>
-                <p className="text-neutral-400 mb-10 max-w-md mx-auto text-lg leading-relaxed">
-                    I&apos;m currently looking for new opportunities. Whether you have a question or just want to say hi, I&apos;ll try my best to get back to you!
-                </p>
-
-                <div className="flex justify-center gap-8">
-                    {profile.socials.map(({ label, href, icon: Icon, hoverClass }) => {
-                        const external = href.startsWith("http");
-                        return (
-                            <motion.a
-                                key={label}
-                                href={href}
-                                {...(external && { target: "_blank", rel: "noopener noreferrer" })}
-                                whileHover={{ scale: 1.25, rotate: 10, y: -5 }}
-                                whileTap={{ scale: 0.9 }}
-                                transition={{ type: "spring", stiffness: 300, damping: 15 }}
-                                className={`p-4 bg-neutral-900 text-neutral-300 border border-neutral-800 rounded-full transition-colors duration-300 shadow-sm ${hoverClass}`}
-                                aria-label={label}
-                            >
-                                <Icon size={28} />
-                            </motion.a>
-                        );
-                    })}
+            <Reveal delay={0.1} className="mt-12 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
+                <div className="flex flex-wrap items-center gap-3">
+                    <a
+                        href={`mailto:${profile.email}`}
+                        className="rounded-full bg-amber px-6 py-3 font-medium text-ink transition-colors hover:bg-[#f7c565]"
+                    >
+                        Email me
+                    </a>
+                    <button
+                        type="button"
+                        onClick={copyEmail}
+                        className="inline-flex items-center gap-2.5 rounded-full border border-line px-5 py-3 font-mono text-sm text-text transition-colors hover:border-muted"
+                    >
+                        <span className="relative size-4" aria-hidden="true">
+                            <AnimatePresence initial={false} mode="popLayout">
+                                <motion.span
+                                    key={copied ? "check" : "copy"}
+                                    initial={{ opacity: 0, scale: 0.5 }}
+                                    animate={{ opacity: 1, scale: 1 }}
+                                    exit={{ opacity: 0, scale: 0.5 }}
+                                    transition={{ duration: 0.25, ease: EASE_OUT }}
+                                    className="absolute inset-0"
+                                >
+                                    {copied ? <Check className="size-4 text-teal" /> : <Copy className="size-4 text-muted" />}
+                                </motion.span>
+                            </AnimatePresence>
+                        </span>
+                        <span>{copied ? "Copied to clipboard" : profile.email}</span>
+                        <span className="sr-only" aria-live="polite">
+                            {copied ? "Email address copied" : ""}
+                        </span>
+                    </button>
                 </div>
+
+                <ul className="flex gap-3">
+                    {profile.socials.map(({ label, href, icon: Icon }) => (
+                        <li key={label}>
+                            <motion.a
+                                href={href}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                whileHover={{ y: -3 }}
+                                whileTap={{ scale: 0.94 }}
+                                className="flex items-center gap-2 rounded-full border border-line px-4 py-3 text-muted transition-colors hover:border-muted hover:text-text"
+                            >
+                                <Icon className="size-5" aria-hidden="true" />
+                                <span className="text-sm">{label}</span>
+                            </motion.a>
+                        </li>
+                    ))}
+                </ul>
             </Reveal>
         </section>
     );

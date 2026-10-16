@@ -1,16 +1,28 @@
 import Reveal from "@/components/ui/Reveal";
+import ScrollText from "@/components/ui/ScrollText";
 import SectionHeading from "@/components/ui/SectionHeading";
 import { profile } from "@/data/profile";
 
 export default function About() {
     return (
-        <section id="about" className="py-20 overflow-hidden">
-            <Reveal>
-                <SectionHeading title="About Me" />
-                <div className="bg-neutral-900/30 p-8 sm:p-10 rounded-3xl shadow-lg border border-neutral-900">
-                    <p className="text-neutral-300 leading-relaxed text-lg">{profile.summary}</p>
-                </div>
-            </Reveal>
+        <section id="about" className="py-24 sm:py-32">
+            <SectionHeading title="About" />
+            <div className="grid gap-14 lg:grid-cols-[minmax(0,1fr)_18rem] lg:gap-20">
+                <ScrollText
+                    text={profile.summary}
+                    className="max-w-[34ch] text-2xl leading-snug font-medium tracking-tight text-text sm:text-3xl sm:max-w-[36ch] lg:text-[2.1rem]"
+                />
+                <Reveal>
+                    <dl className="divide-y divide-line border-y border-line">
+                        {profile.facts.map(({ label, value }) => (
+                            <div key={label} className="py-4">
+                                <dt className="font-mono text-xs text-muted">{label}</dt>
+                                <dd className="mt-1 text-text">{value}</dd>
+                            </div>
+                        ))}
+                    </dl>
+                </Reveal>
+            </div>
         </section>
     );
 }
