@@ -17,7 +17,7 @@ export const profile: Profile = {
     queryResult: [
         { column: "role", value: role },
         { column: "currently", value: "SWE Intern, Mahkamah Konstitusi" },
-        { column: "stack", value: "SQL, Python, PostgreSQL" },
+        { column: "stack", value: "JS/TS, PHP, and Python" },
         { column: "gpa", value: "3.85" },
     ],
     facts: [
