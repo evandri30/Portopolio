@@ -1,11 +1,11 @@
 "use client";
 
 import { useEffect, useLayoutEffect, useRef, useState } from "react";
-import Image from "next/image";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import CountUp from "@/components/ui/CountUp";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SpotlightPanel from "@/components/ui/SpotlightPanel";
 import { projects } from "@/data/projects";
 import { EASE_OUT } from "@/lib/motion";
 import type { Project } from "@/types";
@@ -61,7 +61,7 @@ export default function Projects() {
                     <motion.div
                         ref={trackRef}
                         style={pinned ? { x } : undefined}
-                        className="flex flex-col gap-16 lg:w-max lg:flex-row lg:gap-8"
+                        className="flex flex-col gap-5 lg:w-max lg:flex-row lg:gap-6"
                     >
                         {projects.map((project) => (
                             <ProjectCard key={project.title} project={project} />
@@ -80,104 +80,63 @@ export default function Projects() {
 }
 
 function ProjectCard({ project }: { project: Project }) {
-    const { title, subtitle, period, description, tech, metrics, link, image } = project;
+    const { title, subtitle, period, description, tech, metrics, link } = project;
 
     return (
-        <article className="group flex flex-col lg:w-[min(46rem,62vw)] lg:flex-row lg:gap-7">
-            <motion.div
-                initial={{ clipPath: "inset(12% 12% 12% 12% round 16px)", opacity: 0 }}
-                whileInView={{ clipPath: "inset(0% 0% 0% 0% round 12px)", opacity: 1 }}
-                viewport={{ once: true, amount: 0.3 }}
-                transition={{ duration: 1.1, ease: EASE_OUT }}
-                className="relative aspect-[16/10] shrink-0 overflow-hidden rounded-xl border border-line bg-panel lg:aspect-auto lg:h-[min(52svh,26rem)] lg:w-[55%]"
-            >
-                {image ? (
-                    <Image
-                        src={image}
-                        alt={`Screenshot of ${title}`}
-                        fill
-                        sizes="(max-width: 1024px) 100vw, 420px"
-                        className="object-cover object-top transition-transform duration-700 ease-[var(--ease-out-expo)] group-hover:scale-[1.04]"
-                    />
-                ) : (
-                    <DashboardFallback />
-                )}
-            </motion.div>
+        <motion.article
+            initial={{ clipPath: "inset(8% 8% 8% 8% round 16px)", opacity: 0 }}
+            whileInView={{ clipPath: "inset(0% 0% 0% 0% round 12px)", opacity: 1 }}
+            viewport={{ once: true, amount: 0.3 }}
+            transition={{ duration: 1, ease: EASE_OUT }}
+            className="lg:w-[min(30rem,40vw)]"
+        >
+            <SpotlightPanel className="flex h-full flex-col p-6 sm:p-8 lg:h-[min(56svh,26rem)]">
+                <div className="flex h-full flex-col">
+                    <p className="font-mono text-xs text-muted">{period}</p>
+                    <h3 className="mt-3 text-3xl leading-[1.02] font-semibold tracking-tight text-text [font-stretch:90%] sm:text-[2.6rem]">
+                        {title}
+                    </h3>
+                    {subtitle && <p className="mt-2 text-muted">{subtitle}</p>}
+                    <p className="mt-5 text-[15px] leading-relaxed text-text/80">{description}</p>
 
-            <div className="mt-6 flex min-w-0 flex-col lg:mt-0 lg:flex-1 lg:py-1">
-                <p className="font-mono text-xs text-muted">{period}</p>
-                <h3 className="mt-2 text-2xl leading-tight font-semibold tracking-tight text-text sm:text-3xl lg:text-2xl xl:text-3xl">
-                    {title}
-                </h3>
-                {subtitle && <p className="mt-1 text-muted">{subtitle}</p>}
-                <p className="mt-4 text-[15px] leading-relaxed text-text/80">{description}</p>
+                    {metrics && (
+                        <dl className="mt-6 flex flex-wrap gap-x-7 gap-y-3">
+                            {metrics.map((m) => (
+                                <div key={m.label} className="flex flex-col-reverse">
+                                    <dt className="font-mono text-xs text-muted">{m.label}</dt>
+                                    <dd className="text-2xl font-semibold tracking-tight text-amber">
+                                        <CountUp value={m.value} decimals={m.decimals} suffix={m.suffix} />
+                                    </dd>
+                                </div>
+                            ))}
+                        </dl>
+                    )}
 
-                {metrics && (
-                    <dl className="mt-5 flex flex-wrap gap-x-6 gap-y-3">
-                        {metrics.map((m) => (
-                            <div key={m.label}>
-                                <dd className="text-2xl font-semibold tracking-tight text-amber">
-                                    <CountUp value={m.value} decimals={m.decimals} suffix={m.suffix} />
-                                </dd>
-                                <dt className="font-mono text-xs text-muted">{m.label}</dt>
-                            </div>
-                        ))}
-                    </dl>
-                )}
-
-                <ul className="mt-5 flex flex-wrap gap-1.5" aria-label="Tech stack">
-                    {tech.map((t) => (
-                        <li key={t} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
-                            {t}
-                        </li>
-                    ))}
-                </ul>
-
-                {link && (
-                    <a
-                        href={link}
-                        target="_blank"
-                        rel="noopener noreferrer"
-                        className="group/link mt-6 inline-flex w-fit items-center gap-1 border-b border-amber/40 pb-0.5 font-medium text-amber transition-colors hover:border-amber"
-                    >
-                        Open live project
-                        <ArrowUpRight
-                            className="size-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
-                            aria-hidden="true"
-                        />
-                    </a>
-                )}
-            </div>
-        </article>
-    );
-}
-
-/** Stand-in artwork for projects without a screenshot: an abstract dashboard whose bars grow in. */
-function DashboardFallback() {
-    const bars = [38, 64, 52, 81, 70, 92, 58, 76];
-    return (
-        <div aria-hidden="true" className="absolute inset-0 flex flex-col p-6">
-            <div className="flex gap-3">
-                {[0, 1, 2].map((i) => (
-                    <div key={i} className="h-12 flex-1 rounded-md border border-line bg-ink/50 p-2">
-                        <div className="h-1.5 w-1/2 rounded bg-line" />
-                        <div className="mt-2 h-2.5 w-3/4 rounded bg-muted/40" />
+                    <div className="mt-auto flex flex-wrap items-end justify-between gap-4 pt-8">
+                        <ul className="flex flex-wrap gap-1.5" aria-label="Tech stack">
+                            {tech.map((t) => (
+                                <li key={t} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
+                                    {t}
+                                </li>
+                            ))}
+                        </ul>
+                        {link && (
+                            <a
+                                href={link}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="group/link inline-flex items-center gap-1 border-b border-amber/40 pb-0.5 text-sm font-medium text-amber transition-colors hover:border-amber"
+                            >
+                                Open live demo
+                                <ArrowUpRight
+                                    className="size-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                                    aria-hidden="true"
+                                />
+                            </a>
+                        )}
                     </div>
-                ))}
-            </div>
-            <div className="mt-4 flex flex-1 items-end gap-2 rounded-md border border-line bg-ink/50 p-4">
-                {bars.map((h, i) => (
-                    <motion.div
-                        key={i}
-                        className="flex-1 origin-bottom rounded-t-sm bg-amber/80"
-                        style={{ height: `${h}%` }}
-                        initial={{ scaleY: 0 }}
-                        whileInView={{ scaleY: 1 }}
-                        viewport={{ once: true }}
-                        transition={{ duration: 0.9, ease: EASE_OUT, delay: 0.4 + i * 0.06 }}
-                    />
-                ))}
-            </div>
-        </div>
+                </div>
+            </SpotlightPanel>
+        </motion.article>
     );
 }

@@ -1,9 +1,9 @@
 "use client";
 
-import { motion, useMotionTemplate, useMotionValue } from "framer-motion";
 import Marquee from "@/components/ui/Marquee";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
+import SpotlightPanel from "@/components/ui/SpotlightPanel";
 import { skillCategories, softSkills, spokenLanguages } from "@/data/skills";
 import type { SkillCategory } from "@/types";
 
@@ -58,31 +58,14 @@ export default function Skills() {
     );
 }
 
-/** Category list with a soft light that follows the pointer across the panel. */
 function CategoryPanel({ category }: { category: SkillCategory }) {
-    const mx = useMotionValue(-500);
-    const my = useMotionValue(-500);
-    const glow = useMotionTemplate`radial-gradient(300px circle at ${mx}px ${my}px, rgba(243, 179, 61, 0.08), transparent 70%)`;
-
     return (
-        <div
-            onPointerMove={(e) => {
-                const rect = e.currentTarget.getBoundingClientRect();
-                mx.set(e.clientX - rect.left);
-                my.set(e.clientY - rect.top);
-            }}
-            onPointerLeave={() => {
-                mx.set(-500);
-                my.set(-500);
-            }}
-            className="relative h-full overflow-hidden rounded-xl border border-line bg-panel/60 p-6"
-        >
-            <motion.div aria-hidden="true" style={{ background: glow }} className="pointer-events-none absolute inset-0" />
-            <div className="relative flex items-baseline justify-between">
+        <SpotlightPanel className="h-full p-6">
+            <div className="flex items-baseline justify-between">
                 <h3 className="font-mono text-sm text-muted">{category.title}</h3>
                 <span className="font-mono text-xs text-muted/70">{category.skills.length}</span>
             </div>
-            <ul className="relative mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
+            <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
                 {category.skills.map(({ name, icon: Icon, color }) => (
                     <li key={name} className="group flex items-center gap-2.5 text-text/85">
                         <Icon
@@ -94,6 +77,6 @@ function CategoryPanel({ category }: { category: SkillCategory }) {
                     </li>
                 ))}
             </ul>
-        </div>
+        </SpotlightPanel>
     );
 }

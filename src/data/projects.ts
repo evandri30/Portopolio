@@ -10,7 +10,6 @@ export const projects: Project[] = [
             "Bootcamp final project: analyzed e-commerce sales data with SQL and Python, and visualized the findings in a Looker Studio dashboard.",
         tech: ["SQL", "Python", "Looker Studio"],
         link: null,
-        image: null,
     },
     {
         title: "DeteksiSIBI",
@@ -24,8 +23,7 @@ export const projects: Project[] = [
             { label: "Recall", value: 98.62, decimals: 2, suffix: "%" },
             { label: "mAP50", value: 98.23, decimals: 2, suffix: "%" },
         ],
-        link: "https://deteksisibi.my.id/",
-        image: "/images/sibi.png",
+        link: null,
     },
     {
         title: "Tomato Leaf Disease Classifier",
@@ -35,7 +33,6 @@ export const projects: Project[] = [
         tech: ["Python", "MobileNetV2", "TensorFlow", "Streamlit"],
         metrics: [{ label: "Accuracy", value: 90.5, decimals: 1, suffix: "%" }],
         link: "https://tomato-leaf-diseases-evandri.streamlit.app/",
-        image: "/images/tomatoleaf.png",
     },
     {
         title: "Bank Lead Intelligence Portal",
@@ -45,7 +42,6 @@ export const projects: Project[] = [
             "Built the frontend for a MERN-based internal sales platform delivering AI-driven customer recommendations; refactored backend integration with FastAPI-based AI services and contributed to overall tech stack decisions.",
         tech: ["MERN", "FastAPI", "JavaScript"],
         link: null,
-        image: "/images/blip2.jpeg",
     },
     {
         title: "Rizquna Bakery",
@@ -55,6 +51,5 @@ export const projects: Project[] = [
             "Capstone project: full-stack MERN bakery ordering platform with product management, authentication, shopping cart, Midtrans payment integration, and an admin dashboard for order and delivery tracking.",
         tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Midtrans"],
         link: null,
-        image: "/images/rizqunabakery.png",
     },
 ];

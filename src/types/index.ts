@@ -59,7 +59,6 @@ export type Project = {
     tech: string[];
     metrics?: Metric[];
     link: string | null;
-    image: string | null;
 };
 
 export type Experience = {
