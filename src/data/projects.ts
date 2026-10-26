@@ -1,6 +1,7 @@
 import type { Project } from "@/types";
 
 // Same order as the PROJECTS section of the CV (newest first).
+// DeteksiSIBI is the thesis, so it lives in education[].thesis (src/data/experience.ts), not here.
 export const projects: Project[] = [
     {
         title: "Tokopaedi",
@@ -9,20 +10,6 @@ export const projects: Project[] = [
         description:
             "Bootcamp final project: analyzed e-commerce sales data with SQL and Python, and visualized the findings in a Looker Studio dashboard.",
         tech: ["SQL", "Python", "Looker Studio"],
-        link: null,
-    },
-    {
-        title: "DeteksiSIBI",
-        subtitle: "Real-Time Sign Language Detection",
-        period: "May 2026 – Jul 2026",
-        description:
-            "Real-time SIBI sign language detection system. Trained a YOLOv8 model served via FastAPI + PostgreSQL, with a React.js webcam frontend.",
-        tech: ["YOLOv8", "FastAPI", "PostgreSQL", "React.js"],
-        metrics: [
-            { label: "Precision", value: 98.34, decimals: 2, suffix: "%" },
-            { label: "Recall", value: 98.62, decimals: 2, suffix: "%" },
-            { label: "mAP50", value: 98.23, decimals: 2, suffix: "%" },
-        ],
         link: null,
     },
     {

@@ -7,6 +7,7 @@ Single-page personal portfolio. Goal: the site must reflect the CV accurately an
 - **`public/cv/cv_evandri.pdf` is the source of truth for all content** (summary, experience, projects, education, certifications, skills, dates, metrics). Read it before editing any copy.
 - Positioning: **Software & Data Engineer** (`profile.role`) — internal tools & APIs (PHP, Node.js, React) plus SQL/PostgreSQL/MySQL, Python, Looker Studio. "Associate Data Engineer" is a certification, not the headline role.
 - Projects = personal/academic/bootcamp work only. Work done for an employer (e.g. SparePart Monitoring at Pelita Air, the MKRI chatbot) belongs in Experience, never in Projects.
+- The thesis (DeteksiSIBI, `public/skripsi/skripsi.pdf`) lives in `education[].thesis` and renders in the Education section. Don't also list it in Projects.
 - If site copy and the CV disagree, the CV wins. Never invent metrics, dates, employers, or tech that are not in the CV. If something seems missing, ask instead of guessing.
 - When the CV PDF is replaced, re-sync every file in `src/data/` against it.
 - Do not put the phone number on the site unless explicitly asked. Email, LinkedIn and GitHub (in `src/data/profile.ts`) are fine.

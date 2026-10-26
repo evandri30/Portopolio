@@ -40,6 +40,23 @@ export const education: Education[] = [
             "Database Systems (SQL, Oracle, data modeling & normalization)",
             "Software Engineering",
         ],
+        // Source: public/skripsi/skripsi.pdf (abstract, ch. 3–5). Metrics match the CV.
+        thesis: {
+            title: "Development of a Web-Based SIBI Sign Language Detection System Using YOLOv8 with the CRISP-DM Methodology",
+            titleOriginal:
+                "Pengembangan Sistem Deteksi Bahasa Isyarat SIBI Berbasis Web Menggunakan YOLOv8 dengan Metodologi CRISP-DM",
+            status: "Undergraduate thesis, defended Aug 2026",
+            description:
+                "Built a web app that recognizes the 26 SIBI alphabet hand signs live from a webcam. Trained YOLOv8n on 3,137 annotated and augmented images, following CRISP-DM from business understanding to deployment, and served it with FastAPI, PostgreSQL and a React.js frontend, packaged in Docker on a VPS.",
+            tech: ["YOLOv8", "FastAPI", "PostgreSQL", "React.js", "Docker"],
+            metrics: [
+                { label: "Precision", value: 98.34, decimals: 2, suffix: "%" },
+                { label: "Recall", value: 98.62, decimals: 2, suffix: "%" },
+                { label: "mAP50", value: 98.23, decimals: 2, suffix: "%" },
+            ],
+            supervisor: "Dr. Rina Noviana, S.Kom., MMSI.",
+            pdfPath: "/skripsi/skripsi.pdf",
+        },
     },
 ];
 

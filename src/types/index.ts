@@ -78,6 +78,21 @@ export type Education = {
     gpa: number;
     gpaScale: number;
     coursework: string[];
+    thesis?: Thesis;
+};
+
+export type Thesis = {
+    /** English title. */
+    title: string;
+    /** Title as submitted (Indonesian). */
+    titleOriginal: string;
+    /** Short status line, e.g. "Undergraduate thesis, defended Aug 2026". */
+    status: string;
+    description: string;
+    tech: string[];
+    metrics: Metric[];
+    supervisor: string;
+    pdfPath: string;
 };
 
 export type Certification = {
