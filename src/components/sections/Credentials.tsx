@@ -29,13 +29,6 @@ export default function Credentials() {
                                 GPA / {ed.gpaScale.toFixed(2)}
                             </span>
                         </div>
-
-                        <h4 className="mt-8 font-mono text-sm text-muted">Coursework</h4>
-                        <ul className="mt-3 space-y-2 text-text/85">
-                            {ed.coursework.map((c) => (
-                                <li key={c}>{c}</li>
-                            ))}
-                        </ul>
                     </Reveal>
                 ))}
 

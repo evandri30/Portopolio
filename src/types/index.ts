@@ -77,7 +77,6 @@ export type Education = {
     period: string;
     gpa: number;
     gpaScale: number;
-    coursework: string[];
     thesis?: Thesis;
 };
 

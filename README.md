@@ -1,6 +1,6 @@
 # Evandri Ridho Hasmono — Portfolio
 
-Personal portfolio of **Evandri Ridho Hasmono**, Software & Data Engineer. The site is designed as a SQL console: the hero types a query and "returns" my profile as a Postgres record, and the rest of the page walks through my experience, projects, skills, and credentials.
+Personal portfolio of **Evandri Ridho Hasmono**, Software Engineer. The site is designed as a SQL console: the hero types a query and "returns" my profile as a Postgres record, and the rest of the page walks through my experience, projects, skills, and credentials.
 
 **Live:** [portopolio-ivory.vercel.app](https://portopolio-ivory.vercel.app)
 
@@ -15,7 +15,7 @@ Personal portfolio of **Evandri Ridho Hasmono**, Software & Data Engineer. The s
 | **Experience** | Timeline of internships at Mahkamah Konstitusi RI and PT Pelita Air Service, with a rail that draws as you scroll |
 | **Projects** | Personal, academic, and bootcamp projects with model metrics that count up; a pinned horizontal gallery on desktop |
 | **Skills** | Languages & frameworks, data & tools, soft skills, and spoken languages |
-| **Education & certifications** | Gunadarma University (GPA 3.85 / 4.00), coursework, and certifications |
+| **Education & certifications** | Gunadarma University (GPA 3.85 / 4.00), certifications, and the thesis |
 | **Contact** | Email (with copy-to-clipboard), GitHub, and LinkedIn |
 
 ## Tech stack
@@ -67,7 +67,7 @@ src/
   data/                    all site content (see below)
   lib/motion.ts            shared easing
   types/index.ts           content types
-public/cv/cv_evandri.pdf   downloadable CV
+public/cv/CV_SWE_Evandri Ridho Hasmono.pdf   downloadable CV
 ```
 
 ## Editing content
@@ -82,7 +82,7 @@ All copy lives in typed files under `src/data/`. Components only render it, so u
 | `skills.ts` | Skill categories (with brand icons), soft skills, spoken languages |
 | `navigation.ts` | Navbar links; each `href` must match a section `id` |
 
-`public/cv/cv_evandri.pdf` is the source of truth. When the CV changes, replace the PDF and re-sync the files in `src/data/` against it. Projects list personal, academic, and bootcamp work only; work done for an employer belongs in Experience.
+`public/cv/CV_SWE_Evandri Ridho Hasmono.pdf` is the source of truth. When the CV changes, replace the PDF and re-sync the files in `src/data/` against it. Projects list personal, academic, and bootcamp work only; work done for an employer belongs in Experience.
 
 ## Deployment
 

@@ -1,24 +1,25 @@
+import { FaCode } from "react-icons/fa";
 import {
     SiJavascript, SiTypescript, SiPhp, SiPython, SiNodedotjs, SiExpress,
     SiLaravel, SiHtml5, SiCss, SiReact, SiNextdotjs, SiTailwindcss,
-    SiBootstrap, SiSass, SiMongodb, SiMysql, SiPostgresql, SiPrisma,
+    SiBootstrap, SiSass, SiMongodb, SiMysql, SiPostgresql, SiRedis, SiPrisma,
     SiGit, SiGithub, SiPostman, SiEslint, SiGnubash, SiFigma, SiFastapi, SiDocker,
-    SiLooker,
 } from "react-icons/si";
 import type { SkillCategory, SpokenLanguage } from "@/types";
 
-// Mirrors the SKILLS section of the CV. Looker Studio comes from the CV summary.
+// Mirrors the SKILLS section of the CV, in the same order. Prado has no brand logo, so it uses a generic icon.
 export const skillCategories: SkillCategory[] = [
     {
         title: "Languages & Frameworks",
         skills: [
-            { name: "Python", icon: SiPython, color: "#3776AB" },
             { name: "JavaScript", icon: SiJavascript, color: "#F7DF1E" },
             { name: "TypeScript", icon: SiTypescript, color: "#3178C6" },
             { name: "PHP", icon: SiPhp, color: "#777BB4" },
+            { name: "Python", icon: SiPython, color: "#3776AB" },
             { name: "Node.js", icon: SiNodedotjs, color: "#5FA04E" },
             { name: "Express.js", icon: SiExpress, color: "#E4E9F0" },
             { name: "Laravel", icon: SiLaravel, color: "#FF2D20" },
+            { name: "Prado", icon: FaCode, color: "#8B98AB" },
             { name: "FastAPI", icon: SiFastapi, color: "#009688" },
             { name: "React.js", icon: SiReact, color: "#61DAFB" },
             { name: "Next.js", icon: SiNextdotjs, color: "#E4E9F0" },
@@ -32,17 +33,17 @@ export const skillCategories: SkillCategory[] = [
     {
         title: "Data & Tools",
         skills: [
-            { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
-            { name: "MySQL", icon: SiMysql, color: "#4479A1" },
             { name: "MongoDB", icon: SiMongodb, color: "#47A248" },
-            { name: "Looker Studio", icon: SiLooker, color: "#4285F4" },
+            { name: "MySQL", icon: SiMysql, color: "#4479A1" },
+            { name: "PostgreSQL", icon: SiPostgresql, color: "#4169E1" },
+            { name: "Redis", icon: SiRedis, color: "#FF4438" },
             { name: "Prisma", icon: SiPrisma, color: "#E4E9F0" },
-            { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Git", icon: SiGit, color: "#F05032" },
             { name: "GitHub", icon: SiGithub, color: "#E4E9F0" },
             { name: "Postman", icon: SiPostman, color: "#FF6C37" },
             { name: "ESLint", icon: SiEslint, color: "#8080F2" },
             { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
+            { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Figma", icon: SiFigma, color: "#F24E1E" },
         ],
     },

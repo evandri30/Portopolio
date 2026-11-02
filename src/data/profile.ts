@@ -1,7 +1,7 @@
 import { FaGithub, FaLinkedin } from "react-icons/fa";
 import type { Profile } from "@/types";
 
-const role = "Software & Data Engineer";
+const role = "Software Engineer";
 
 export const profile: Profile = {
     name: "Evandri Ridho Hasmono",
@@ -10,14 +10,14 @@ export const profile: Profile = {
     location: "Bekasi, West Java",
     email: "evandriridhoh@gmail.com",
     tagline:
-        "Software engineer who builds internal tools and APIs, and a data engineer who writes SQL every day.",
+        "Software engineer building full-stack web applications, from database design through frontend delivery.",
     summary:
-        "Informatics graduate (GPA 3.85) and certified Associate Data Engineer with hands-on experience building internal data tools and APIs on PostgreSQL and MySQL. I write SQL daily, from standard queries to vector similarity search, and use Python and Looker Studio to process, analyze, and visualize data. I also bring full-stack development experience in PHP, Node.js, and React to support internal applications and data integration.",
-    contactHeadline: "Got data that needs a pipeline? Let's talk.",
+        "Software engineer with hands-on experience across the TypeScript, Python, and PHP/Laravel stacks, building full-stack web applications from database design through frontend delivery. I'm comfortable working end-to-end on a problem, from data modeling to system design to production deployment, and I'm currently sharpening my skills in scalable backend architecture and applied data science through independent projects.",
+    contactHeadline: "Got something that needs building? Let's talk.",
     queryResult: [
         { column: "role", value: role },
         { column: "currently", value: "SWE Intern, Mahkamah Konstitusi" },
-        { column: "stack", value: "JS/TS, PHP, and Python" },
+        { column: "stack", value: "TypeScript, Python, and PHP/Laravel" },
         { column: "gpa", value: "3.85" },
     ],
     facts: [
@@ -26,7 +26,7 @@ export const profile: Profile = {
         { label: "Certified", value: "Associate Data Engineer" },
         { label: "Speaks", value: "Indonesian (native), English (professional)" },
     ],
-    cvPath: "/cv/cv_evandri.pdf",
+    cvPath: "/cv/CV_SWE_Evandri%20Ridho%20Hasmono.pdf",
     socials: [
         { label: "GitHub", href: "https://github.com/evandri30", icon: FaGithub },
         { label: "LinkedIn", href: "https://www.linkedin.com/in/evandriridho", icon: FaLinkedin },

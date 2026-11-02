@@ -1,7 +1,8 @@
 import type { Project } from "@/types";
 
-// Same order as the PROJECTS section of the CV (newest first).
-// DeteksiSIBI is the thesis, so it lives in education[].thesis (src/data/experience.ts), not here.
+// Newest first, same order as the PROJECTS section of the CV.
+// Tokopaedi is not on the current CV; it stays here at the owner's request, with copy from the previous CV.
+// DeteksiSIBI is also the thesis, so it appears in education[].thesis (src/data/experience.ts) too.
 export const projects: Project[] = [
     {
         title: "Tokopaedi",
@@ -13,11 +14,25 @@ export const projects: Project[] = [
         link: null,
     },
     {
+        title: "DeteksiSIBI",
+        subtitle: "Real-Time Sign Language Detection",
+        period: "May 2026 – Jul 2026",
+        description:
+            "Built a full-stack real-time SIBI sign language detection system: trained a YOLOv8 model and deployed it via FastAPI + PostgreSQL with a React.js frontend for webcam-based detection.",
+        tech: ["YOLOv8", "FastAPI", "PostgreSQL", "React.js"],
+        metrics: [
+            { label: "Precision", value: 98.34, decimals: 2, suffix: "%" },
+            { label: "Recall", value: 98.62, decimals: 2, suffix: "%" },
+            { label: "mAP50", value: 98.23, decimals: 2, suffix: "%" },
+        ],
+        link: null,
+    },
+    {
         title: "Tomato Leaf Disease Classifier",
         period: "Mar 2026 – Apr 2026",
         description:
-            "Trained a MobileNetV2 classifier with data preprocessing and augmentation, deployed as an interactive Streamlit web app.",
-        tech: ["Python", "MobileNetV2", "TensorFlow", "Streamlit"],
+            "Built an end-to-end tomato disease classification system using transfer learning with MobileNetV2, covering data preprocessing, augmentation, and deployment as an interactive Streamlit web app.",
+        tech: ["Python", "MobileNetV2", "Streamlit"],
         metrics: [{ label: "Accuracy", value: 90.5, decimals: 1, suffix: "%" }],
         link: "https://tomato-leaf-diseases-evandri.streamlit.app/",
     },
@@ -35,7 +50,7 @@ export const projects: Project[] = [
         subtitle: "Full-Stack Ordering Platform",
         period: "Mar 2025 – Aug 2025",
         description:
-            "Capstone project: full-stack MERN bakery ordering platform with product management, authentication, shopping cart, Midtrans payment integration, and an admin dashboard for order and delivery tracking.",
+            "Built a full-stack MERN bakery ordering platform as a capstone project: product management, authentication, shopping cart, Midtrans payment integration, and an admin dashboard for order/delivery tracking.",
         tech: ["MongoDB", "Express.js", "React.js", "Node.js", "Midtrans"],
         link: null,
     },

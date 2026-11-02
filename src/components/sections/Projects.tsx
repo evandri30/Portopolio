@@ -90,7 +90,7 @@ function ProjectCard({ project }: { project: Project }) {
             transition={{ duration: 1, ease: EASE_OUT }}
             className="lg:w-[min(30rem,40vw)]"
         >
-            <SpotlightPanel className="flex h-full flex-col p-6 sm:p-8 lg:h-[min(56svh,26rem)]">
+            <SpotlightPanel className="flex h-full flex-col p-6 sm:p-8 lg:min-h-[min(56svh,26rem)]">
                 <div className="flex h-full flex-col">
                     <p className="font-mono text-xs text-muted">{period}</p>
                     <h3 className="mt-3 text-3xl leading-[1.02] font-semibold tracking-tight text-text [font-stretch:90%] sm:text-[2.6rem]">
