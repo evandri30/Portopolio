@@ -26,7 +26,7 @@ export const profile: Profile = {
         { label: "Certified", value: "Associate Data Engineer" },
         { label: "Speaks", value: "Indonesian (native), English (professional)" },
     ],
-    cvPath: "/cv/CV_SWE_Evandri%20Ridho%20Hasmono.pdf",
+    cvPath: "/cv/CV_Evandri_Ridho_Hasmono.pdf",
     socials: [
         { label: "GitHub", href: "https://github.com/evandri30", icon: FaGithub },
         { label: "LinkedIn", href: "https://www.linkedin.com/in/evandriridho", icon: FaLinkedin },

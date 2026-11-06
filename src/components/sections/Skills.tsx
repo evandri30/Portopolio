@@ -4,7 +4,7 @@ import Marquee from "@/components/ui/Marquee";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SpotlightPanel from "@/components/ui/SpotlightPanel";
-import { skillCategories, softSkills, spokenLanguages } from "@/data/skills";
+import { skillCategories, spokenLanguages } from "@/data/skills";
 import type { SkillCategory } from "@/types";
 
 const allSkills = skillCategories.flatMap((c) => c.skills);
@@ -31,18 +31,8 @@ export default function Skills() {
                 ))}
             </div>
 
-            <div className="mt-6 grid gap-6 lg:grid-cols-[minmax(0,2fr)_minmax(0,1fr)]">
-                <Reveal className="rounded-xl border border-line p-6">
-                    <h3 className="font-mono text-sm text-muted">Soft skills</h3>
-                    <ul className="mt-4 flex flex-wrap gap-2">
-                        {softSkills.map((s) => (
-                            <li key={s} className="rounded-full border border-line px-3.5 py-1.5 text-text/90">
-                                {s}
-                            </li>
-                        ))}
-                    </ul>
-                </Reveal>
-                <Reveal delay={0.08} className="rounded-xl border border-line p-6">
+            <div className="mt-6">
+                <Reveal className="rounded-xl border border-line p-6 lg:max-w-[calc(50%-0.75rem)]">
                     <h3 className="font-mono text-sm text-muted">Languages</h3>
                     <dl className="mt-4 space-y-3">
                         {spokenLanguages.map(({ name, level }) => (

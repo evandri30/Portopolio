@@ -1,7 +1,6 @@
 import type { Project } from "@/types";
 
 // Newest first, same order as the PROJECTS section of the CV.
-// Tokopaedi is not on the current CV; it stays here at the owner's request, with copy from the previous CV.
 // DeteksiSIBI is also the thesis, so it appears in education[].thesis (src/data/experience.ts) too.
 export const projects: Project[] = [
     {
@@ -9,8 +8,8 @@ export const projects: Project[] = [
         subtitle: "E-Commerce Data Analysis",
         period: "Aug 2026 – Sep 2026",
         description:
-            "Bootcamp final project: analyzed e-commerce sales data with SQL and Python, and visualized the findings in a Looker Studio dashboard.",
-        tech: ["SQL", "Python", "Looker Studio"],
+            "MySkill bootcamp final project: analyzed e-commerce sales data with SQL and Python and built a Looker Studio dashboard of the findings.",
+        tech: ["SQL", "Python", "Looker Studio", "BigQuery"],
         link: null,
     },
     {

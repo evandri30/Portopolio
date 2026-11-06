@@ -5,7 +5,6 @@ import { motion, useAnimationFrame, useMotionValue, useReducedMotion, useTransfo
 
 type MarqueeProps = {
     children: React.ReactNode;
-    /** Pixels per second. */
     speed?: number;
     className?: string;
 };

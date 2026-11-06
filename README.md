@@ -67,7 +67,7 @@ src/
   data/                    all site content (see below)
   lib/motion.ts            shared easing
   types/index.ts           content types
-public/cv/CV_SWE_Evandri Ridho Hasmono.pdf   downloadable CV
+public/cv/CV_Evandri_Ridho_Hasmono.pdf   downloadable CV
 ```
 
 ## Editing content
@@ -82,7 +82,7 @@ All copy lives in typed files under `src/data/`. Components only render it, so u
 | `skills.ts` | Skill categories (with brand icons), soft skills, spoken languages |
 | `navigation.ts` | Navbar links; each `href` must match a section `id` |
 
-`public/cv/CV_SWE_Evandri Ridho Hasmono.pdf` is the source of truth. When the CV changes, replace the PDF and re-sync the files in `src/data/` against it. Projects list personal, academic, and bootcamp work only; work done for an employer belongs in Experience.
+`public/cv/CV_Evandri_Ridho_Hasmono.pdf` is the source of truth. When the CV changes, replace the PDF and re-sync the files in `src/data/` against it. Projects list personal, academic, and bootcamp work only; work done for an employer belongs in Experience.
 
 ## Deployment
 

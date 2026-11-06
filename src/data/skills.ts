@@ -3,11 +3,11 @@ import {
     SiJavascript, SiTypescript, SiPhp, SiPython, SiNodedotjs, SiExpress,
     SiLaravel, SiHtml5, SiCss, SiReact, SiNextdotjs, SiTailwindcss,
     SiBootstrap, SiSass, SiMongodb, SiMysql, SiPostgresql, SiRedis, SiPrisma,
-    SiGit, SiGithub, SiPostman, SiEslint, SiGnubash, SiFigma, SiFastapi, SiDocker,
+    SiGit, SiGithub, SiLooker, SiGooglebigquery, SiPostman, SiEslint, SiGnubash, SiFigma, SiFastapi, SiDocker,
 } from "react-icons/si";
 import type { SkillCategory, SpokenLanguage } from "@/types";
 
-// Mirrors the SKILLS section of the CV, in the same order. Prado has no brand logo, so it uses a generic icon.
+// Mirrors the SKILLS section of the CV, in the same order, plus BigQuery (owner request, not on the CV). Prado has no brand logo, so it uses a generic icon.
 export const skillCategories: SkillCategory[] = [
     {
         title: "Languages & Frameworks",
@@ -45,18 +45,10 @@ export const skillCategories: SkillCategory[] = [
             { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Figma", icon: SiFigma, color: "#F24E1E" },
+            { name: "Looker Studio", icon: SiLooker, color: "#4285F4" },
+            { name: "BigQuery", icon: SiGooglebigquery, color: "#669DF6" },
         ],
     },
-];
-
-export const softSkills: string[] = [
-    "Problem solving",
-    "Teamwork",
-    "Communication",
-    "Critical thinking",
-    "Self-learning",
-    "Adaptability",
-    "Time management",
 ];
 
 export const spokenLanguages: SpokenLanguage[] = [

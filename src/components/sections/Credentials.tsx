@@ -80,19 +80,7 @@ export default function Credentials() {
                                 </div>
 
                                 <div className="mt-10 flex flex-wrap items-end justify-between gap-6">
-                                    <div>
-                                        <ul className="flex flex-wrap gap-1.5" aria-label="Tech stack">
-                                            {thesis.tech.map((t) => (
-                                                <li
-                                                    key={t}
-                                                    className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted"
-                                                >
-                                                    {t}
-                                                </li>
-                                            ))}
-                                        </ul>
-                                        <p className="mt-4 text-sm text-muted">Supervised by {thesis.supervisor}</p>
-                                    </div>
+                                    <p className="text-sm text-muted">Supervised by {thesis.supervisor}</p>
                                     <a
                                         href={thesis.pdfPath}
                                         target="_blank"

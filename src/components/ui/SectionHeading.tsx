@@ -2,7 +2,6 @@ import Reveal from "@/components/ui/Reveal";
 
 type SectionHeadingProps = {
     title: string;
-    /** Row count shown as a query result next to the title, e.g. 2 → "2 rows". */
     rows?: number;
     className?: string;
 };

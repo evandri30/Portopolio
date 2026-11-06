@@ -11,7 +11,6 @@ export type SocialLink = {
     icon: IconType;
 };
 
-/** One column of the hero's mock SQL result row. */
 export type QueryColumn = {
     column: string;
     value: string;
@@ -25,18 +24,13 @@ export type Fact = {
 export type Profile = {
     name: string;
     shortName: string;
-    /** Headline role, used in the hero, page title and OG image. */
     role: string;
     location: string;
     email: string;
-    /** One-line intro under the hero name. */
     tagline: string;
     summary: string;
-    /** Closing headline of the contact section. */
     contactHeadline: string;
-    /** Columns the hero query "returns" for the profile row. */
     queryResult: QueryColumn[];
-    /** Short key/value facts next to the summary. */
     facts: Fact[];
     cvPath: string;
     socials: SocialLink[];
@@ -44,9 +38,7 @@ export type Profile = {
 
 export type Metric = {
     label: string;
-    /** Numeric value, rendered with a count-up. */
     value: number;
-    /** Decimal places to show. */
     decimals: number;
     suffix: string;
 };
@@ -88,7 +80,6 @@ export type Thesis = {
     /** Short status line, e.g. "Undergraduate thesis, defended Aug 2026". */
     status: string;
     description: string;
-    tech: string[];
     metrics: Metric[];
     supervisor: string;
     pdfPath: string;
