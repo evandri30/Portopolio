@@ -123,16 +123,19 @@ export default function Hero() {
                         {profile.tagline} Based in {profile.location}.
                     </p>
                     <div className="mt-8 flex flex-wrap gap-3">
-                        <motion.a
-                            href={profile.cvPath}
-                            download="CV_Evandri_Ridho_Hasmono.pdf"
-                            whileHover={{ y: -2 }}
-                            whileTap={{ scale: 0.97 }}
-                            className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-medium text-ink transition-colors hover:bg-[#f7c565]"
-                        >
-                            <Download className="size-4" aria-hidden="true" />
-                            Download CV
-                        </motion.a>
+                        {profile.cvs.map(({ label, path }) => (
+                            <motion.a
+                                key={path}
+                                href={path}
+                                download
+                                whileHover={{ y: -2 }}
+                                whileTap={{ scale: 0.97 }}
+                                className="inline-flex items-center gap-2 rounded-full bg-amber px-6 py-3 font-medium text-ink transition-colors hover:bg-[#f7c565]"
+                            >
+                                <Download className="size-4" aria-hidden="true" />
+                                {label}
+                            </motion.a>
+                        ))}
                         <motion.a
                             href={`mailto:${profile.email}`}
                             whileHover={{ y: -2 }}

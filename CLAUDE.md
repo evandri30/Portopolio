@@ -4,12 +4,13 @@ Single-page personal portfolio. Goal: the site must reflect the CV accurately an
 
 ## Source of truth
 
-- **`public/cv/CV_Evandri_Ridho_Hasmono.pdf` is the source of truth for all content** (summary, experience, projects, education, certifications, skills, dates, metrics). Read it before editing any copy.
-- Positioning: **Software Engineer** (`profile.role`) — full-stack web applications across the TypeScript, Python, and PHP/Laravel stacks. "Associate Data Engineer" is a certification, not the headline role.
+- **The two role-specific CVs in `public/cv/` are the source of truth for all content**: `CV_Evandri_Ridho_Hasmono_SWE.pdf` (Software Engineer) and `CV_Evandri_Ridho_Hasmono_DE.pdf` (Data Engineer). Read both before editing any copy (summary, experience, projects, education, certifications, skills, dates, metrics).
+- The site is general: it is the **union of both CVs**. A fact on either CV may appear on the site. When the CVs word the same thing differently, use the fuller version. Both are downloadable from the hero (`profile.cvs`).
+- Positioning: **Software & Data Engineer** (`profile.role`) — AI-powered web applications and the data pipelines behind them. The headline must work for a recruiter arriving from either CV.
 - Projects = personal/academic/bootcamp work only. Work done for an employer (e.g. SparePart Monitoring at Pelita Air, the MKRI chatbot) belongs in Experience, never in Projects.
 - The thesis (DeteksiSIBI, `public/skripsi/skripsi.pdf`) appears twice on purpose: in `education[].thesis` (Education section) and in Projects, as on the CV.
-- If site copy and the CV disagree, the CV wins. Never invent metrics, dates, employers, or tech that are not in the CV. If something seems missing, ask instead of guessing.
-- When the CV PDF is replaced, re-sync every file in `src/data/` against it.
+- If site copy and the CVs disagree, the CVs win. Never invent metrics, dates, employers, or tech that are not in either CV. If something seems missing, or the two CVs contradict each other, ask instead of guessing.
+- When a CV PDF is replaced, re-sync every file in `src/data/` against both.
 - Do not put the phone number on the site unless explicitly asked. Email, LinkedIn and GitHub (in `src/data/profile.ts`) are fine.
 
 ## Stack
@@ -42,13 +43,13 @@ src/
     layout/       Navbar, Footer, MotionProvider, SmoothScroll (Lenis)
     ui/           shared primitives: Reveal, SectionHeading, ScrollText, CountUp, Marquee
   data/           ALL content, typed, plain .ts (no JSX)
-                  profile.ts (name, tagline, summary, hero query result, facts, socials, cvPath),
+                  profile.ts (name, tagline, summary, hero query result, facts, socials, cvs),
                   experience.ts (experience, education, certifications), projects.ts, skills.ts
                   (skill categories, soft skills, spoken languages), navigation.ts
   lib/motion.ts   shared easing (EASE_OUT)
   types/index.ts  every content type in one file; import via `@/types`
 public/images/    project screenshots
-public/cv/        downloadable CV
+public/cv/        downloadable CVs (SWE and DE)
 ```
 
 Section order: Hero → About → Experience → Projects → Skills → Education & Certifications (`#education`) → Contact.
@@ -76,4 +77,4 @@ The site speaks the language of a data engineer: the hero types a SQL query and 
 
 1. `npm run lint` and `npm run build` pass.
 2. The page was checked in the browser (desktop and ~375px mobile width) with no console errors and no horizontal scroll.
-3. Every changed piece of copy was checked against the CV.
+3. Every changed piece of copy was checked against both CVs.

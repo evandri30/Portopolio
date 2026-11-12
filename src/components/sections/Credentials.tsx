@@ -3,7 +3,7 @@ import CountUp from "@/components/ui/CountUp";
 import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SpotlightPanel from "@/components/ui/SpotlightPanel";
-import { certifications, education } from "@/data/experience";
+import { certificatesUrl, certifications, education } from "@/data/experience";
 
 export default function Credentials() {
     return (
@@ -49,6 +49,18 @@ export default function Credentials() {
                             </li>
                         ))}
                     </ul>
+                    <a
+                        href={certificatesUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="group/link mt-6 inline-flex items-center gap-1 border-b border-amber/40 pb-0.5 text-sm font-medium text-amber transition-colors hover:border-amber"
+                    >
+                        View certificates
+                        <ArrowUpRight
+                            className="size-4 transition-transform group-hover/link:translate-x-0.5 group-hover/link:-translate-y-0.5"
+                            aria-hidden="true"
+                        />
+                    </a>
                 </Reveal>
             </div>
 

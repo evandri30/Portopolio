@@ -21,6 +21,12 @@ export type Fact = {
     value: string;
 };
 
+export type CvFile = {
+    /** Button label, e.g. "Software Engineer CV". */
+    label: string;
+    path: string;
+};
+
 export type Profile = {
     name: string;
     shortName: string;
@@ -32,7 +38,7 @@ export type Profile = {
     contactHeadline: string;
     queryResult: QueryColumn[];
     facts: Fact[];
-    cvPath: string;
+    cvs: CvFile[];
     socials: SocialLink[];
 };
 

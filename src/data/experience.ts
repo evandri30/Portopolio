@@ -7,11 +7,11 @@ export const experience: Experience[] = [
         period: "Sep 2026 – Present",
         current: true,
         highlights: [
-            "Grading AI: Built an AI essay pre-grading system end-to-end (frontend, backend, database) for Pusdik MK's e-learning platform using Next.js, FastAPI, PostgreSQL, Milvus, Redis, and Docker; Qwen scores essay answers in batches as a first pass before final review by human graders.",
-            "SIMPONI Chatbot: Developed a RAG chatbot for SIMPONI, MK's internal HR system, using Qwen and PHP (Prado); built the PDF ingestion pipeline (chunking and embedding) and designed the vector schema in PostgreSQL (pgvector).",
-            "Data API: Built a Prado API that supplies SIMPONI data to the chatbot without direct production database access.",
+            "Grading AI: Built solo, end to end, an essay pre-grading system for Pusdik MK's e-learning platform that batch-scores ~200 essays per run with Qwen, giving an overloaded grading team draft scores to review instead of grading from scratch (Next.js, FastAPI, PostgreSQL, pgvector, Redis, Docker; in staging).",
+            "SIMPONI Chatbot: Developed a RAG chatbot for SIMPONI, MK's in-house HR system used by the HR bureau (SDMO), so HR staff can query employee data and HR documents in natural language; built a CLI ingestion pipeline (PDF parsing, chunking, embedding) that indexed ~1,000 pages into a pgvector schema I designed.",
+            "Data API: Built a Prado (PHP) API that serves SIMPONI employee data to the chatbot, so the LLM layer never touches the production database directly.",
         ],
-        tech: ["Next.js", "FastAPI", "PostgreSQL", "pgvector", "Milvus", "Redis", "Docker", "Qwen", "PHP", "Prado"],
+        tech: ["Next.js", "FastAPI", "PostgreSQL", "pgvector", "Redis", "Docker", "Qwen", "PHP", "Prado"],
     },
     {
         role: "Frontend Engineer Intern",
@@ -19,9 +19,8 @@ export const experience: Experience[] = [
         period: "Nov 2025 – Jan 2026",
         current: false,
         highlights: [
-            "Built frontend pages for SparePart Monitoring, a web app that replaced a paper-based spare part inventory process so multiple divisions across the Depok operations site and Jakarta office work from the same data.",
-            "Translated Figma designs into Laravel Blade pages (login, signup, home, navigation, settings) and integrated them with backend endpoints, as one of three frontend developers.",
-            "Followed the SDLC from requirements to implementation, using Git branching and Jira sprints.",
+            "Built core pages (login, signup, home, inventory, settings) of SparePart Monitoring, a now-live web app that replaced paper-based spare part records for 5 departments across the Tangerang site and Jakarta office.",
+            "Translated Figma designs into Laravel Blade views wired to backend endpoints as one of 3 frontend developers, working in Jira sprints with Git branching.",
         ],
         tech: ["Laravel", "Blade", "Figma", "Git", "Jira"],
     },
@@ -53,6 +52,9 @@ export const education: Education[] = [
         },
     },
 ];
+
+/** Public Google Drive folder holding every certificate PDF. */
+export const certificatesUrl = "https://drive.google.com/drive/folders/1U9XM4hhVSfjLBpBMcArVb7x7PSGNEOSP";
 
 export const certifications: Certification[] = [
     { name: "Associate Data Engineer", issuer: "Badan Nasional Sertifikasi Profesi (BNSP)", date: "Jul 15, 2026" },

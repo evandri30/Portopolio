@@ -29,10 +29,7 @@ export default function Skills() {
                         <CategoryPanel category={category} />
                     </Reveal>
                 ))}
-            </div>
-
-            <div className="mt-6">
-                <Reveal className="rounded-xl border border-line p-6 lg:max-w-[calc(50%-0.75rem)]">
+                <Reveal className="rounded-xl border border-line p-6">
                     <h3 className="font-mono text-sm text-muted">Languages</h3>
                     <dl className="mt-4 space-y-3">
                         {spokenLanguages.map(({ name, level }) => (

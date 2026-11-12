@@ -1,13 +1,15 @@
-import { FaCode } from "react-icons/fa";
+import { FaChartBar, FaCode } from "react-icons/fa";
 import {
     SiJavascript, SiTypescript, SiPhp, SiPython, SiNodedotjs, SiExpress,
     SiLaravel, SiHtml5, SiCss, SiReact, SiNextdotjs, SiTailwindcss,
     SiBootstrap, SiSass, SiMongodb, SiMysql, SiPostgresql, SiRedis, SiPrisma,
     SiGit, SiGithub, SiLooker, SiGooglebigquery, SiPostman, SiEslint, SiGnubash, SiFigma, SiFastapi, SiDocker,
+    SiPandas, SiNumpy, SiStreamlit,
 } from "react-icons/si";
 import type { SkillCategory, SpokenLanguage } from "@/types";
 
-// Mirrors the SKILLS section of the CV, in the same order, plus BigQuery (owner request, not on the CV). Prado has no brand logo, so it uses a generic icon.
+// Union of the SKILLS sections of both CVs (SWE and DE), plus BigQuery (owner request, not on the CVs).
+// Prado, Matplotlib and Seaborn have no brand logo, so they use a generic icon.
 export const skillCategories: SkillCategory[] = [
     {
         title: "Languages & Frameworks",
@@ -45,6 +47,16 @@ export const skillCategories: SkillCategory[] = [
             { name: "Bash", icon: SiGnubash, color: "#4EAA25" },
             { name: "Docker", icon: SiDocker, color: "#2496ED" },
             { name: "Figma", icon: SiFigma, color: "#F24E1E" },
+        ],
+    },
+    {
+        title: "Data & Analytics",
+        skills: [
+            { name: "pandas", icon: SiPandas, color: "#E4E9F0" },
+            { name: "NumPy", icon: SiNumpy, color: "#4DABCF" },
+            { name: "Matplotlib", icon: FaChartBar, color: "#8B98AB" },
+            { name: "Seaborn", icon: FaChartBar, color: "#8B98AB" },
+            { name: "Streamlit", icon: SiStreamlit, color: "#FF4B4B" },
             { name: "Looker Studio", icon: SiLooker, color: "#4285F4" },
             { name: "BigQuery", icon: SiGooglebigquery, color: "#669DF6" },
         ],

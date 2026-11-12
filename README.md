@@ -1,6 +1,6 @@
 # Evandri Ridho Hasmono — Portfolio
 
-Personal portfolio of **Evandri Ridho Hasmono**, Software Engineer. The site is designed as a SQL console: the hero types a query and "returns" my profile as a Postgres record, and the rest of the page walks through my experience, projects, skills, and credentials.
+Personal portfolio of **Evandri Ridho Hasmono**, Software & Data Engineer. The site is designed as a SQL console: the hero types a query and "returns" my profile as a Postgres record, and the rest of the page walks through my experience, projects, skills, and credentials.
 
 **Live:** [portopolio-ivory.vercel.app](https://portopolio-ivory.vercel.app)
 
@@ -67,7 +67,7 @@ src/
   data/                    all site content (see below)
   lib/motion.ts            shared easing
   types/index.ts           content types
-public/cv/CV_Evandri_Ridho_Hasmono.pdf   downloadable CV
+public/cv/                 downloadable CVs, one per role (_SWE.pdf, _DE.pdf)
 ```
 
 ## Editing content
@@ -76,13 +76,13 @@ All copy lives in typed files under `src/data/`. Components only render it, so u
 
 | File | Content |
 | --- | --- |
-| `profile.ts` | Name, role, tagline, summary, hero query result, quick facts, socials, CV path |
+| `profile.ts` | Name, role, tagline, summary, hero query result, quick facts, socials, CV files |
 | `experience.ts` | Work experience, education, certifications |
 | `projects.ts` | Projects, including optional metrics and live link |
 | `skills.ts` | Skill categories (with brand icons), soft skills, spoken languages |
 | `navigation.ts` | Navbar links; each `href` must match a section `id` |
 
-`public/cv/CV_Evandri_Ridho_Hasmono.pdf` is the source of truth. When the CV changes, replace the PDF and re-sync the files in `src/data/` against it. Projects list personal, academic, and bootcamp work only; work done for an employer belongs in Experience.
+The two role-specific CVs in `public/cv/` (`CV_Evandri_Ridho_Hasmono_SWE.pdf` and `CV_Evandri_Ridho_Hasmono_DE.pdf`) are the source of truth, and the site is the union of both. When a CV changes, replace the PDF and re-sync the files in `src/data/` against both. Projects list personal, academic, and bootcamp work only; work done for an employer belongs in Experience.
 
 ## Deployment
 
