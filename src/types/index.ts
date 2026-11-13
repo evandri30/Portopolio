@@ -49,6 +49,12 @@ export type Metric = {
     suffix: string;
 };
 
+export type ProjectLink = {
+    /** Link text, e.g. "Watch demo", "View slides". */
+    label: string;
+    href: string;
+};
+
 export type Project = {
     title: string;
     subtitle?: string;
@@ -56,7 +62,7 @@ export type Project = {
     description: string;
     tech: string[];
     metrics?: Metric[];
-    link: string | null;
+    link: ProjectLink | null;
 };
 
 export type Experience = {

@@ -10,7 +10,7 @@ export const projects: Project[] = [
         description:
             "MySkill final project in a 7-person team: wrote SQL across 6 related tables for monthly sales, same-month YoY channel growth, and organic funnel conversion, and built a Looker Studio dashboard tracking Rp8.69B sales, Rp2.01B net profit, and Rp1.51M AOV. Using Python (pandas), found that weekend campaign days averaged 29.93% lower daily sales than weekdays (Oct–Dec 2022) and identified 820 checked-out but unpaid customers for re-targeting.",
         tech: ["SQL", "Python", "pandas", "Looker Studio", "BigQuery"],
-        link: null,
+        link: { label: "View slides", href: "https://drive.google.com/drive/folders/1HJIUXODMGz81kZDqzPRdNtcvK3eokbue" },
     },
     {
         title: "Hospital Database Design",
@@ -33,7 +33,7 @@ export const projects: Project[] = [
             { label: "Recall", value: 98.62, decimals: 2, suffix: "%" },
             { label: "mAP50", value: 98.23, decimals: 2, suffix: "%" },
         ],
-        link: null,
+        link: { label: "Watch demo", href: "https://drive.google.com/drive/folders/1ElPBf8OU0g8QO3lcAHmAa3BbdTbq5UbI" },
     },
     {
         title: "Tomato Leaf Disease Classifier",
@@ -42,7 +42,7 @@ export const projects: Project[] = [
             "Built a tomato disease classifier with MobileNetV2 transfer learning, covering preprocessing, augmentation, and deployment as an interactive Streamlit app.",
         tech: ["Python", "MobileNetV2", "Streamlit"],
         metrics: [{ label: "Accuracy", value: 90.5, decimals: 1, suffix: "%" }],
-        link: "https://tomato-leaf-diseases-evandri.streamlit.app/",
+        link: { label: "Open live demo", href: "https://tomato-leaf-diseases-evandri.streamlit.app/" },
     },
     {
         title: "Bank Lead Intelligence Portal",

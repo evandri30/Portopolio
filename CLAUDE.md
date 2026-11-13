@@ -71,7 +71,7 @@ The site speaks the language of a data engineer: the hero types a SQL query and 
 - Type: Bricolage Grotesque for everything (display headings use `[font-stretch:88%]`, tracking no tighter than ~-0.02em or letters collide); JetBrains Mono only for real data bits (query, dates, row counts, tech tags, small labels).
 - No ALL-CAPS eyebrows, no middle-dot meta strings, no 01/02 numbering. Console panels `rounded-xl` + 1px `line` border; buttons `rounded-full`.
 - Motion: one orchestrated hero load; scroll-linked motion elsewhere (word-by-word About text, timeline rail, pinned horizontal projects ≥1024px); user-triggered micro-interactions. Easing `EASE_OUT` from `@/lib/motion`.
-- Project cards are text-only panels (no screenshots — the demo servers are mostly shut down). Only add `link` for a demo that is actually reachable.
+- Project cards are text-only panels (no screenshots — the demo servers are mostly shut down). `link` is one `{ label, href }` per project: a live demo, a demo video, or slides (Google Drive folders are fine — heavy files stay out of the repo). Only add it when it opens publicly without login.
 
 ## Done means
 

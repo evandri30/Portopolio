@@ -46,6 +46,14 @@ export default function Navbar() {
         else lenis?.start();
     }, [open, lenis]);
 
+    // The menu and its button are hidden from md up; close it there so scroll is never left frozen.
+    useEffect(() => {
+        const mq = window.matchMedia("(min-width: 768px)");
+        const close = () => setOpen(false);
+        mq.addEventListener("change", close);
+        return () => mq.removeEventListener("change", close);
+    }, []);
+
     return (
         <>
             <motion.header
