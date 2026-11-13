@@ -53,15 +53,15 @@ function CategoryPanel({ category }: { category: SkillCategory }) {
                 <span className="font-mono text-xs text-muted/70">{category.skills.length}</span>
             </div>
             <ul className="mt-5 grid grid-cols-2 gap-x-4 gap-y-3 sm:grid-cols-3">
-                {category.skills.map(({ name, icon: Icon, color }) => (
-                    <li key={name} className="group flex items-center gap-2.5 text-text/85">
+                {category.skills.map(({ name, icon: Icon, color }, i) => (
+                    <Reveal as="li" key={name} y={8} delay={i * 0.03} className="group flex items-center gap-2.5 text-text/85">
                         <Icon
                             style={{ color }}
                             className="size-[18px] shrink-0 opacity-80 transition-[opacity,transform] duration-300 group-hover:scale-110 group-hover:opacity-100"
                             aria-hidden="true"
                         />
                         <span className="truncate">{name}</span>
-                    </li>
+                    </Reveal>
                 ))}
             </ul>
         </SpotlightPanel>

@@ -41,7 +41,8 @@ src/
   components/
     sections/     one file per page section: Hero, About, Experience, Projects, Skills, Credentials, Contact
     layout/       Navbar, Footer, MotionProvider, SmoothScroll (Lenis)
-    ui/           shared primitives: Reveal, SectionHeading, ScrollText, CountUp, Marquee
+    ui/           shared primitives: Reveal (`as`/`y`/`delay` for staggered lists), RiseText, SectionHeading,
+                  ScrollText, CountUp, Marquee, SpotlightPanel
   data/           ALL content, typed, plain .ts (no JSX)
                   profile.ts (name, tagline, summary, hero query result, facts, socials, cvs),
                   experience.ts (experience, education, certifications), projects.ts, skills.ts

@@ -24,7 +24,7 @@ export default function SpotlightPanel({ children, className }: SpotlightPanelPr
                 mx.set(-500);
                 my.set(-500);
             }}
-            className={`relative overflow-hidden rounded-xl border border-line bg-panel/60 ${className ?? ""}`}
+            className={`relative overflow-hidden rounded-xl border border-line bg-panel/60 transition-colors duration-500 hover:border-amber/30 ${className ?? ""}`}
         >
             <motion.div aria-hidden="true" style={{ background: glow }} className="pointer-events-none absolute inset-0" />
             <div className="relative h-full">{children}</div>

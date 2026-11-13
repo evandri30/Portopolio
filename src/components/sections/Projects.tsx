@@ -4,6 +4,7 @@ import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { motion, useScroll, useSpring, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 import CountUp from "@/components/ui/CountUp";
+import Reveal from "@/components/ui/Reveal";
 import SectionHeading from "@/components/ui/SectionHeading";
 import SpotlightPanel from "@/components/ui/SpotlightPanel";
 import { projects } from "@/data/projects";
@@ -12,24 +13,31 @@ import type { Project } from "@/types";
 
 const useIsoLayoutEffect = typeof window === "undefined" ? useEffect : useLayoutEffect;
 
+/** Height of the fixed navbar (`h-16`) the pinned block sits under, and of the progress bar below the cards. */
+const NAV_H = 64;
+const PROGRESS_H = 33;
+
 /**
  * Pins the section on ≥1024px screens and turns vertical scroll into a horizontal gallery.
- * Screens shorter than 640px can't fit the pinned block, so there the row scrolls sideways instead.
+ * Screens too short to fit the pinned block under the navbar get a sideways-scrolling row instead.
  */
 export default function Projects() {
     const sectionRef = useRef<HTMLElement>(null);
+    const contentRef = useRef<HTMLDivElement>(null);
     const viewportRef = useRef<HTMLDivElement>(null);
     const trackRef = useRef<HTMLDivElement>(null);
     const [distance, setDistance] = useState(0);
     const [desktop, setDesktop] = useState(false);
 
     useIsoLayoutEffect(() => {
-        const mq = window.matchMedia("(min-width: 1024px) and (min-height: 640px)");
+        const mq = window.matchMedia("(min-width: 1024px)");
         const measure = () => {
-            setDesktop(mq.matches);
+            const content = contentRef.current;
             const track = trackRef.current;
             const viewport = viewportRef.current;
-            if (track && viewport) setDistance(Math.max(0, track.scrollWidth - viewport.clientWidth));
+            if (!content || !track || !viewport) return;
+            setDesktop(mq.matches && content.offsetHeight + PROGRESS_H <= window.innerHeight - NAV_H);
+            setDistance(Math.max(0, track.scrollWidth - viewport.clientWidth));
         };
         measure();
         const ro = new ResizeObserver(measure);
@@ -43,7 +51,8 @@ export default function Projects() {
         };
     }, []);
 
-    const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end end"] });
+    // Progress runs over exactly the pinned stretch: from the section reaching the navbar to its end reaching the bottom.
+    const { scrollYProgress } = useScroll({ target: sectionRef, offset: [`start ${NAV_H}px`, "end end"] });
     const smooth = useSpring(scrollYProgress, { stiffness: 140, damping: 30, restDelta: 0.0005 });
     const x = useTransform(smooth, [0, 1], [0, -distance]);
 
@@ -54,22 +63,24 @@ export default function Projects() {
             id="projects"
             ref={sectionRef}
             className={`relative ${pinned ? "" : "py-24 sm:py-32"}`}
-            // Scroll length = horizontal distance + one screen, so the pin releases right as the last card lands.
-            style={pinned ? { height: `calc(${distance}px + 100svh)` } : undefined}
+            // Scroll length = horizontal distance + the pinned block's height, so the pin releases right as the last card lands.
+            style={pinned ? { height: `calc(${distance}px + 100svh - ${NAV_H}px)` } : undefined}
         >
-            <div className={pinned ? "sticky top-0 flex h-svh flex-col justify-center" : ""}>
-                <SectionHeading title="Projects" rows={projects.length} className="mb-10 lg:mb-8" />
+            <div className={pinned ? "sticky top-16 flex h-[calc(100svh-4rem)] flex-col justify-center" : ""}>
+                <div ref={contentRef}>
+                    <SectionHeading title="Projects" rows={projects.length} className="mb-10 lg:mb-8" />
 
-                <div ref={viewportRef} className={pinned ? undefined : "lg:overflow-x-auto"}>
-                    <motion.div
-                        ref={trackRef}
-                        style={pinned ? { x } : undefined}
-                        className="flex flex-col gap-5 lg:w-max lg:flex-row lg:gap-6"
-                    >
-                        {projects.map((project) => (
-                            <ProjectCard key={project.title} project={project} />
-                        ))}
-                    </motion.div>
+                    <div ref={viewportRef} className={pinned ? undefined : "lg:overflow-x-auto"}>
+                        <motion.div
+                            ref={trackRef}
+                            style={pinned ? { x } : undefined}
+                            className="flex flex-col gap-5 lg:w-max lg:flex-row lg:gap-6"
+                        >
+                            {projects.map((project) => (
+                                <ProjectCard key={project.title} project={project} />
+                            ))}
+                        </motion.div>
+                    </div>
                 </div>
 
                 {pinned && (
@@ -114,15 +125,17 @@ function ProjectCard({ project }: { project: Project }) {
                     </div>
 
                     {/* Side by side (lg), reserve two title lines + the subtitle so every description starts level. */}
-                    <div className="mt-3 lg:min-h-[7.3rem]">
+                    <Reveal y={12} delay={0.1} className="mt-3 lg:min-h-[7.3rem]">
                         <h3 className="text-3xl leading-[1.02] font-semibold tracking-tight text-text [font-stretch:90%] sm:text-[2.6rem]">
                             {title}
                         </h3>
                         {subtitle && <p className="mt-2 text-muted">{subtitle}</p>}
-                    </div>
-                    <p className="mt-5 text-[15px] leading-relaxed text-text/80">{description}</p>
+                    </Reveal>
+                    <Reveal y={12} delay={0.2} className="mt-5">
+                        <p className="text-[15px] leading-relaxed text-text/80">{description}</p>
+                    </Reveal>
 
-                    <div className="mt-auto pt-8">
+                    <Reveal y={12} delay={0.3} className="mt-auto pt-8">
                         {metrics && (
                             <dl className="mb-6 flex flex-wrap gap-x-7 gap-y-3">
                                 {metrics.map((m) => (
@@ -136,13 +149,19 @@ function ProjectCard({ project }: { project: Project }) {
                             </dl>
                         )}
                         <ul className="flex flex-wrap gap-1.5" aria-label="Tech stack">
-                            {tech.map((t) => (
-                                <li key={t} className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted">
+                            {tech.map((t, i) => (
+                                <Reveal
+                                    as="li"
+                                    key={t}
+                                    y={8}
+                                    delay={0.3 + i * 0.03}
+                                    className="rounded-md border border-line px-2 py-0.5 font-mono text-[11px] text-muted"
+                                >
                                     {t}
-                                </li>
+                                </Reveal>
                             ))}
                         </ul>
-                    </div>
+                    </Reveal>
                 </div>
             </SpotlightPanel>
         </motion.article>

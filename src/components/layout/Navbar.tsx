@@ -10,7 +10,6 @@ import { EASE_OUT } from "@/lib/motion";
 
 export default function Navbar() {
     const [open, setOpen] = useState(false);
-    const [hidden, setHidden] = useState(false);
     const [scrolled, setScrolled] = useState(false);
     const [active, setActive] = useState<string | null>(null);
     const lenis = useLenis();
@@ -18,12 +17,7 @@ export default function Navbar() {
     const { scrollY, scrollYProgress } = useScroll();
     const progress = useSpring(scrollYProgress, { stiffness: 200, damping: 40, restDelta: 0.001 });
 
-    // Hide while scrolling down, reveal on any upward scroll.
-    useMotionValueEvent(scrollY, "change", (y) => {
-        const prev = scrollY.getPrevious() ?? 0;
-        setScrolled(y > 24);
-        setHidden(y > prev && y > 200);
-    });
+    useMotionValueEvent(scrollY, "change", (y) => setScrolled(y > 24));
 
     // Highlight the section currently crossing the middle of the viewport.
     useEffect(() => {
@@ -57,7 +51,8 @@ export default function Navbar() {
     return (
         <>
             <motion.header
-                animate={{ y: hidden && !open ? "-110%" : "0%" }}
+                initial={{ y: "-110%" }}
+                animate={{ y: "0%" }}
                 transition={{ duration: 0.45, ease: EASE_OUT }}
                 className={`fixed inset-x-0 top-0 z-50 transition-[background-color,border-color,backdrop-filter] duration-300 ${
                     scrolled || open ? "border-b border-line bg-ink/75 backdrop-blur-md" : "border-b border-transparent"

@@ -35,8 +35,8 @@ export default function Credentials() {
                 <Reveal delay={0.1}>
                     <h3 className="font-mono text-sm text-muted">Certifications</h3>
                     <ul className="mt-4 border-t border-line">
-                        {certifications.map(({ name, issuer, date }) => (
-                            <li key={name} className="group relative border-b border-line py-6">
+                        {certifications.map(({ name, issuer, date }, i) => (
+                            <Reveal as="li" key={name} y={12} delay={i * 0.08} className="group relative border-b border-line py-6">
                                 <span
                                     aria-hidden="true"
                                     className="absolute -bottom-px left-0 h-px w-full origin-left scale-x-0 bg-amber transition-transform duration-500 ease-[var(--ease-out-expo)] group-hover:scale-x-100"
@@ -46,7 +46,7 @@ export default function Credentials() {
                                     <span>{issuer}</span>
                                     <span className="font-mono text-sm">{date}</span>
                                 </div>
-                            </li>
+                            </Reveal>
                         ))}
                     </ul>
                     <a

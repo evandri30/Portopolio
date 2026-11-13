@@ -12,16 +12,14 @@ export default function About() {
                     text={profile.summary}
                     className="max-w-[34ch] text-2xl leading-snug font-medium tracking-tight text-text sm:text-3xl sm:max-w-[36ch] lg:text-[2.1rem]"
                 />
-                <Reveal>
-                    <dl className="divide-y divide-line border-y border-line">
-                        {profile.facts.map(({ label, value }) => (
-                            <div key={label} className="py-4">
-                                <dt className="font-mono text-xs text-muted">{label}</dt>
-                                <dd className="mt-1 text-text">{value}</dd>
-                            </div>
-                        ))}
-                    </dl>
-                </Reveal>
+                <dl className="divide-y divide-line border-y border-line">
+                    {profile.facts.map(({ label, value }, i) => (
+                        <Reveal key={label} y={12} delay={i * 0.07} className="py-4">
+                            <dt className="font-mono text-xs text-muted">{label}</dt>
+                            <dd className="mt-1 text-text">{value}</dd>
+                        </Reveal>
+                    ))}
+                </dl>
             </div>
         </section>
     );

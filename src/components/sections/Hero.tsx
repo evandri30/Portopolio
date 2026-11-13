@@ -1,7 +1,7 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { motion, useMotionTemplate, useMotionValue, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState } from "react";
+import { motion, useMotionTemplate, useMotionValue, useReducedMotion, useScroll, useTransform } from "framer-motion";
 import { Download } from "lucide-react";
 import { profile } from "@/data/profile";
 import { EASE_OUT } from "@/lib/motion";
@@ -9,6 +9,7 @@ import { EASE_OUT } from "@/lib/motion";
 const NAME_DELAY = 0.15;
 const TYPE_START_MS = 900;
 const TYPE_MS = 28;
+const PROMPT = "portfolio=# ";
 
 type Token = { text: string; kind: "keyword" | "string" | "plain" };
 
@@ -48,6 +49,14 @@ export default function Hero() {
     const my = useMotionValue(-1000);
     const spotlight = useMotionTemplate`radial-gradient(420px circle at ${mx}px ${my}px, rgba(243, 179, 61, 0.09), transparent 70%)`;
 
+    // Scrolling away: the name lifts and fades while the dot grid lags behind. Reduced motion
+    // is handled inside the transforms, so the rendered markup never depends on it.
+    const sectionRef = useRef<HTMLElement>(null);
+    const { scrollYProgress } = useScroll({ target: sectionRef, offset: ["start start", "end start"] });
+    const nameY = useTransform(scrollYProgress, (p) => (reduce ? 0 : p * -80));
+    const nameOpacity = useTransform(scrollYProgress, (p) => (reduce ? 1 : 1 - p * 0.8));
+    const gridY = useTransform(scrollYProgress, (p) => (reduce ? 0 : p * 120));
+
     useEffect(() => {
         // Reduced motion: show the whole query at once. Decided client-side only, so the
         // server HTML and the first client render stay identical (no hydration mismatch).
@@ -80,6 +89,7 @@ export default function Hero() {
     return (
         <section
             id="home"
+            ref={sectionRef}
             onPointerMove={(e) => {
                 const rect = e.currentTarget.getBoundingClientRect();
                 mx.set(e.clientX - rect.left);
@@ -88,8 +98,9 @@ export default function Hero() {
             className="relative isolate flex min-h-svh flex-col justify-center pt-24 pb-12"
         >
             {/* Dot grid + spotlight */}
-            <div
+            <motion.div
                 aria-hidden="true"
+                style={{ y: gridY }}
                 className="absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2 bg-[radial-gradient(var(--color-line)_1px,transparent_1px)] [background-size:28px_28px] [mask-image:radial-gradient(ellipse_at_top,black_30%,transparent_75%)]"
             />
             <motion.div
@@ -98,7 +109,10 @@ export default function Hero() {
                 className="pointer-events-none absolute inset-y-0 left-1/2 -z-10 w-screen -translate-x-1/2"
             />
 
-            <h1 className="text-[clamp(3rem,10vw,9rem)] leading-[0.92] font-bold tracking-[-0.015em] text-text [font-stretch:88%]">
+            <motion.h1
+                style={{ y: nameY, opacity: nameOpacity }}
+                className="text-[clamp(3rem,10vw,9rem)] leading-[0.92] font-bold tracking-[-0.015em] text-text [font-stretch:88%]"
+            >
                 {nameLines.map((word, i) => (
                     <span key={word} className="block overflow-hidden pb-[0.08em]">
                         <motion.span
@@ -111,7 +125,7 @@ export default function Hero() {
                         </motion.span>
                     </span>
                 ))}
-            </h1>
+            </motion.h1>
 
             <div className="mt-10 grid gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.1fr)] lg:items-end">
                 <motion.div
@@ -155,7 +169,7 @@ export default function Hero() {
                     className="overflow-hidden rounded-xl border border-line bg-panel/80 font-mono text-[13px] leading-6 shadow-[0_30px_80px_-30px_rgba(0,0,0,0.6)] backdrop-blur-sm sm:text-sm"
                 >
                     <div className="flex items-center justify-between border-b border-line px-4 py-2.5 text-xs text-muted">
-                        <span>portfolio=# </span>
+                        <span>{PROMPT}</span>
                         <span>postgres</span>
                     </div>
 
@@ -193,6 +207,11 @@ export default function Hero() {
                             </dl>
                             <motion.p variants={rowVariants} className="mt-3 text-xs text-teal">
                                 (1 row)
+                            </motion.p>
+                            {/* Back at the prompt: the caret keeps blinking after the query has run. */}
+                            <motion.p variants={rowVariants} aria-hidden="true" className="mt-3 text-muted">
+                                {PROMPT}
+                                <Caret />
                             </motion.p>
                         </motion.div>
                     </div>

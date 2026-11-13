@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 import { Check, Copy } from "lucide-react";
 import Reveal from "@/components/ui/Reveal";
+import RiseText from "@/components/ui/RiseText";
 import { profile } from "@/data/profile";
 import { EASE_OUT } from "@/lib/motion";
 
@@ -27,23 +28,25 @@ export default function Contact() {
 
     return (
         <section id="contact" className="py-24 sm:py-32">
-            <Reveal>
-                <h2 className="max-w-[14ch] text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.95] font-bold tracking-[-0.015em] text-text [font-stretch:88%]">
-                    {profile.contactHeadline}
-                </h2>
-            </Reveal>
+            <h2 className="max-w-[14ch] text-[clamp(2.75rem,8vw,6.5rem)] leading-[0.95] font-bold tracking-[-0.015em] text-text [font-stretch:88%]">
+                <RiseText text={profile.contactHeadline} />
+            </h2>
 
             <Reveal delay={0.1} className="mt-12 flex flex-col gap-8 sm:flex-row sm:items-center sm:justify-between">
                 <div className="flex flex-wrap items-center gap-3">
-                    <a
+                    <motion.a
                         href={`mailto:${profile.email}`}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.97 }}
                         className="rounded-full bg-amber px-6 py-3 font-medium text-ink transition-colors hover:bg-[#f7c565]"
                     >
                         Email me
-                    </a>
-                    <button
+                    </motion.a>
+                    <motion.button
                         type="button"
                         onClick={copyEmail}
+                        whileHover={{ y: -2 }}
+                        whileTap={{ scale: 0.97 }}
                         className="inline-flex items-center gap-2.5 rounded-full border border-line px-5 py-3 font-mono text-sm text-text transition-colors hover:border-muted"
                     >
                         <span className="relative size-4" aria-hidden="true">
@@ -64,7 +67,7 @@ export default function Contact() {
                         <span className="sr-only" aria-live="polite">
                             {copied ? "Email address copied" : ""}
                         </span>
-                    </button>
+                    </motion.button>
                 </div>
 
                 <ul className="flex gap-3">

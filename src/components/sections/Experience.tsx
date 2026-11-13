@@ -26,8 +26,12 @@ export default function Experience() {
 
                 {experience.map((job) => (
                     <li key={job.company} className="relative">
-                        <span
+                        <motion.span
                             aria-hidden="true"
+                            initial={{ scale: 0 }}
+                            whileInView={{ scale: 1 }}
+                            viewport={{ once: true, margin: "-80px 0px" }}
+                            transition={{ type: "spring", stiffness: 300, damping: 18 }}
                             className={`absolute top-2 -left-8 size-[11px] rounded-full border-2 border-ink sm:-left-12 ${job.current ? "bg-teal" : "bg-muted"}`}
                         >
                             {job.current && (
@@ -37,7 +41,7 @@ export default function Experience() {
                                     transition={{ duration: 1.8, repeat: Infinity, ease: "easeOut" }}
                                 />
                             )}
-                        </span>
+                        </motion.span>
 
                         <Reveal className="grid gap-6 md:grid-cols-[11rem_minmax(0,1fr)] md:gap-10">
                             <div className="font-mono text-sm text-muted">
@@ -50,19 +54,25 @@ export default function Experience() {
                                 <p className="mt-1 text-lg text-muted">{job.company}</p>
 
                                 <ul className="mt-6 max-w-2xl space-y-3 text-text/85">
-                                    {job.highlights.map((h) => (
-                                        <li key={h} className="relative pl-5 leading-relaxed">
+                                    {job.highlights.map((h, i) => (
+                                        <Reveal as="li" key={h} y={12} delay={i * 0.06} className="relative pl-5 leading-relaxed">
                                             <span aria-hidden="true" className="absolute top-[0.7em] left-0 h-px w-2.5 bg-amber" />
                                             {h}
-                                        </li>
+                                        </Reveal>
                                     ))}
                                 </ul>
 
                                 <ul className="mt-6 flex flex-wrap gap-2" aria-label="Tools used">
-                                    {job.tech.map((t) => (
-                                        <li key={t} className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-muted">
+                                    {job.tech.map((t, i) => (
+                                        <Reveal
+                                            as="li"
+                                            key={t}
+                                            y={8}
+                                            delay={i * 0.04}
+                                            className="rounded-md border border-line px-2.5 py-1 font-mono text-xs text-muted"
+                                        >
                                             {t}
-                                        </li>
+                                        </Reveal>
                                     ))}
                                 </ul>
                             </div>
